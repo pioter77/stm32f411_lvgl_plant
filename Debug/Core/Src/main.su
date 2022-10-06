@@ -1,0 +1,5 @@
+../Core/Src/main.c:223:6:SystemClock_Config	8	static,ignoring_inline_asm
+../Core/Src/main.c:98:5:main	48	static
+../Core/Src/main.c:266:6:HAL_GPIO_EXTI_Callback	0	static
+../Core/Src/main.c:274:6:SYSTICK_lvgl_handler	0	static
+../Core/Src/main.c:285:6:Error_Handler	0	static,ignoring_inline_asm
