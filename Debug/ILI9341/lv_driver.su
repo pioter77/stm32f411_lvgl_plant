@@ -1,3 +1,0 @@
-../ILI9341/lv_driver.c:9:6:ILI9341_SetAddrWindowForLv	24	static
-../ILI9341/lv_driver.c:32:6:ILI9341_flush	32	static
-../ILI9341/lv_driver.c:45:6:DMA_ILI9341_SPI_TransmitComplete_Callback	0	static

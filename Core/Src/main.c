@@ -186,7 +186,7 @@ int main(void)
   fcnUi_chart_init();
   fcnUi_chart_update();
 
-  uint32_t LedTim0;
+//  uint32_t LedTim0;
   uint32_t lvglTime=0;
   /* USER CODE END 2 */
 
