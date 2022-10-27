@@ -31,11 +31,8 @@ void ui_event_PrevScButton(lv_event_t * e);
 lv_obj_t * ui_PrevScButton;
 lv_obj_t * ui_PlotScreenInfoLabel;
 lv_obj_t * ui_PlotButton1;
-lv_obj_t * ui_Screen2_Label20;
 lv_obj_t * ui_PlotButton2;
-lv_obj_t * ui_Screen2_Label1;
 lv_obj_t * ui_PlotButton3;
-lv_obj_t * ui_Screen2_Label21;
 lv_obj_t * ui_PlotLegendLabel;
 void ui_event_SettingsButton(lv_event_t * e);
 lv_obj_t * ui_SettingsButton;
@@ -70,6 +67,8 @@ lv_obj_t * ui_YearSetLabel;
 lv_obj_t * ui_MonthSetLabel;
 lv_obj_t * ui_HourSetLabel;
 lv_obj_t * ui_MinsSetLabel;
+lv_obj_t * ui_TimeDateSaveButton;
+lv_obj_t * ui_TimeDateSaveBtnLabel;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
@@ -292,7 +291,7 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_x(ui_MainScreenParamLabel, 1);
     lv_obj_set_y(ui_MainScreenParamLabel, -107);
     lv_obj_set_align(ui_MainScreenParamLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_MainScreenParamLabel, "17:39  24*C/48%");
+    lv_label_set_text(ui_MainScreenParamLabel, "17:39:00 12.02.22  24*C/48%");
 
     lv_obj_add_event_cb(ui_NextScButton, ui_event_NextScButton, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Out1Arc, ui_event_Out1Arc, LV_EVENT_ALL, NULL);
@@ -345,11 +344,6 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_bg_color(ui_PlotButton1, lv_color_hex(0x52A48A), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_PlotButton1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Screen2_Label20 = lv_label_create(ui_PlotButton1);
-    lv_obj_set_width(ui_Screen2_Label20, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Screen2_Label20, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Screen2_Label20, LV_ALIGN_CENTER);
-
     ui_PlotButton2 = lv_btn_create(ui_Screen2);
     lv_obj_set_width(ui_PlotButton2, 60);
     lv_obj_set_height(ui_PlotButton2, 40);
@@ -362,11 +356,6 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_bg_color(ui_PlotButton2, lv_color_hex(0x52A48A), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_PlotButton2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_Screen2_Label1 = lv_label_create(ui_PlotButton2);
-    lv_obj_set_width(ui_Screen2_Label1, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Screen2_Label1, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Screen2_Label1, LV_ALIGN_CENTER);
-
     ui_PlotButton3 = lv_btn_create(ui_Screen2);
     lv_obj_set_width(ui_PlotButton3, 60);
     lv_obj_set_height(ui_PlotButton3, 40);
@@ -378,11 +367,6 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_radius(ui_PlotButton3, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_PlotButton3, lv_color_hex(0x52A48A), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_PlotButton3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_Screen2_Label21 = lv_label_create(ui_PlotButton3);
-    lv_obj_set_width(ui_Screen2_Label21, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Screen2_Label21, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Screen2_Label21, LV_ALIGN_CENTER);
 
     ui_PlotLegendLabel = lv_label_create(ui_Screen2);
     lv_obj_set_width(ui_PlotLegendLabel, LV_SIZE_CONTENT);   /// 1
@@ -565,6 +549,10 @@ void ui_Screen4_screen_init(void)
     lv_label_set_text(ui_ScreenBrigtLabel, "Screen\nBrightness");
 
     ui_ScreenBrigtSlider = lv_slider_create(ui_Screen4);
+    lv_slider_set_range(ui_ScreenBrigtSlider, 5, 100);
+    lv_slider_set_value(ui_ScreenBrigtSlider, 50, LV_ANIM_OFF);
+    if(lv_slider_get_mode(ui_ScreenBrigtSlider) == LV_SLIDER_MODE_RANGE) lv_slider_set_left_value(ui_ScreenBrigtSlider, 0,
+                                                                                                      LV_ANIM_OFF);
     lv_obj_set_width(ui_ScreenBrigtSlider, 180);
     lv_obj_set_height(ui_ScreenBrigtSlider, 21);
     lv_obj_set_x(ui_ScreenBrigtSlider, 54);
@@ -588,7 +576,8 @@ void ui_Screen4_screen_init(void)
     lv_obj_set_align(ui_ScreenTimeSlider, LV_ALIGN_CENTER);
 
     ui_DaySetLabel = lv_dropdown_create(ui_Screen4);
-    lv_dropdown_set_options(ui_DaySetLabel, "01");
+    lv_dropdown_set_options(ui_DaySetLabel,
+                            "01\n02\n03\n04\n05\n06\n07\n08\n09\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31");
     lv_obj_set_width(ui_DaySetLabel, 53);
     lv_obj_set_height(ui_DaySetLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_DaySetLabel, -26);
@@ -597,7 +586,7 @@ void ui_Screen4_screen_init(void)
     lv_obj_add_flag(ui_DaySetLabel, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
 
     ui_YearSetLabel = lv_dropdown_create(ui_Screen4);
-    lv_dropdown_set_options(ui_YearSetLabel, "2022\n2023\n2024\n2025");
+    lv_dropdown_set_options(ui_YearSetLabel, "22\n23\n24\n25\n26\n27\n28\n29\n30");
     lv_obj_set_width(ui_YearSetLabel, 70);
     lv_obj_set_height(ui_YearSetLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_YearSetLabel, 108);
@@ -606,7 +595,7 @@ void ui_Screen4_screen_init(void)
     lv_obj_add_flag(ui_YearSetLabel, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
 
     ui_MonthSetLabel = lv_dropdown_create(ui_Screen4);
-    lv_dropdown_set_options(ui_MonthSetLabel, "01");
+    lv_dropdown_set_options(ui_MonthSetLabel, "01\n02\n03\n04\n05\n06\n07\n08\n09\n10\n11\n12");
     lv_obj_set_width(ui_MonthSetLabel, 53);
     lv_obj_set_height(ui_MonthSetLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_MonthSetLabel, 34);
@@ -615,7 +604,8 @@ void ui_Screen4_screen_init(void)
     lv_obj_add_flag(ui_MonthSetLabel, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
 
     ui_HourSetLabel = lv_dropdown_create(ui_Screen4);
-    lv_dropdown_set_options(ui_HourSetLabel, "14");
+    lv_dropdown_set_options(ui_HourSetLabel,
+                            "01\n02\n03\n04\n05\n06\n07\n08\n09\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23");
     lv_obj_set_width(ui_HourSetLabel, 53);
     lv_obj_set_height(ui_HourSetLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_HourSetLabel, -27);
@@ -624,13 +614,28 @@ void ui_Screen4_screen_init(void)
     lv_obj_add_flag(ui_HourSetLabel, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
 
     ui_MinsSetLabel = lv_dropdown_create(ui_Screen4);
-    lv_dropdown_set_options(ui_MinsSetLabel, "16");
+    lv_dropdown_set_options(ui_MinsSetLabel,
+                            "01\n02\n03\n04\n05\n06\n07\n08\n09\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\n57\n58\n59");
     lv_obj_set_width(ui_MinsSetLabel, 53);
     lv_obj_set_height(ui_MinsSetLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_MinsSetLabel, 33);
     lv_obj_set_y(ui_MinsSetLabel, 1);
     lv_obj_set_align(ui_MinsSetLabel, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_MinsSetLabel, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+
+    ui_TimeDateSaveButton = lv_btn_create(ui_Screen4);
+    lv_obj_set_width(ui_TimeDateSaveButton, 50);
+    lv_obj_set_height(ui_TimeDateSaveButton, 50);
+    lv_obj_set_x(ui_TimeDateSaveButton, 240);
+    lv_obj_set_y(ui_TimeDateSaveButton, 90);
+    lv_obj_add_flag(ui_TimeDateSaveButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_clear_flag(ui_TimeDateSaveButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+
+    ui_TimeDateSaveBtnLabel = lv_label_create(ui_TimeDateSaveButton);
+    lv_obj_set_width(ui_TimeDateSaveBtnLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_TimeDateSaveBtnLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_TimeDateSaveBtnLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_TimeDateSaveBtnLabel, " Save\nClock");
 
     lv_obj_add_event_cb(ui_SettingsBackButton, ui_event_SettingsBackButton, LV_EVENT_ALL, NULL);
 

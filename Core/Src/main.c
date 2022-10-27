@@ -21,6 +21,7 @@
 #include "adc.h"
 #include "dma.h"
 #include "i2c.h"
+#include "rtc.h"
 #include "spi.h"
 #include "tim.h"
 #include "gpio.h"
@@ -43,6 +44,8 @@
 
 #include "control.h"
 #include "fcnUi_chart.h"
+#include "ctrl_device.h"
+#include "ctrl_measure.h"
 //#include "../../lvgl/demos/lv_demos.h"
 /* USER CODE END Includes */
 
@@ -125,26 +128,29 @@ int main(void)
   MX_ADC1_Init();
   MX_I2C1_Init();
   MX_SPI1_Init();
-  MX_TIM4_Init();
   MX_TIM1_Init();
   MX_TIM5_Init();
+  MX_TIM2_Init();
+  MX_TIM4_Init();
+  MX_RTC_Init();
   /* USER CODE BEGIN 2 */
   //timer init for pwm output:
 
 
-  LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH1);
-  LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH2);
+//  LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH1);
+//  LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH2);
+//
+//  LL_TIM_EnableIT_UPDATE(TIM1);
+//  LL_TIM_EnableCounter(TIM1);
+//  LL_TIM_EnableAutomaticOutput(TIM1);
 
-  LL_TIM_EnableIT_UPDATE(TIM1);
-  LL_TIM_EnableCounter(TIM1);
-  LL_TIM_EnableAutomaticOutput(TIM1);
 
-
-  LL_TIM_EnableCounter(TIM4);
+//  LL_TIM_EnableCounter(TIM4);
   //LL_TIM_EnableAutomaticOutput(TIM1);
-
-
-
+//**********************************************************************************************************************
+  ctrl_device_init();
+  ctrl_measure_init();
+//**********************************************************************************************************************
 
   //end of pwm timer init
   ILI9341_Init();
@@ -204,7 +210,8 @@ int main(void)
 		  //tim1Ch1_fill=100;
 		  //tim1Ch2_fill=900;
 		  pump_ctrl();
-		  encoder_Pos= TIM4->CNT;
+		  ctrl_device();
+		  //encoder_Pos= TIM4->CNT;
 
 
 	  }
@@ -231,6 +238,14 @@ void SystemClock_Config(void)
 
    /* Wait till HSE is ready */
   while(LL_RCC_HSE_IsReady() != 1)
+  {
+
+  }
+  LL_PWR_EnableBkUpAccess();
+  LL_RCC_LSE_Enable();
+
+   /* Wait till LSE is ready */
+  while(LL_RCC_LSE_IsReady() != 1)
   {
 
   }

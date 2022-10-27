@@ -36,11 +36,8 @@ void ui_event_PrevScButton(lv_event_t * e);
 extern lv_obj_t * ui_PrevScButton;
 extern lv_obj_t * ui_PlotScreenInfoLabel;
 extern lv_obj_t * ui_PlotButton1;
-extern lv_obj_t * ui_Screen2_Label20;
 extern lv_obj_t * ui_PlotButton2;
-extern lv_obj_t * ui_Screen2_Label1;
 extern lv_obj_t * ui_PlotButton3;
-extern lv_obj_t * ui_Screen2_Label21;
 extern lv_obj_t * ui_PlotLegendLabel;
 void ui_event_SettingsButton(lv_event_t * e);
 extern lv_obj_t * ui_SettingsButton;
@@ -75,6 +72,8 @@ extern lv_obj_t * ui_YearSetLabel;
 extern lv_obj_t * ui_MonthSetLabel;
 extern lv_obj_t * ui_HourSetLabel;
 extern lv_obj_t * ui_MinsSetLabel;
+extern lv_obj_t * ui_TimeDateSaveButton;
+extern lv_obj_t * ui_TimeDateSaveBtnLabel;
 
 
 

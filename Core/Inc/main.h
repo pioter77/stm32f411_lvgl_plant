@@ -38,6 +38,7 @@ extern "C" {
 #include "stm32f4xx_ll_cortex.h"
 #include "stm32f4xx_ll_utils.h"
 #include "stm32f4xx_ll_pwr.h"
+#include "stm32f4xx_ll_rtc.h"
 #include "stm32f4xx_ll_spi.h"
 #include "stm32f4xx_ll_tim.h"
 #include "stm32f4xx_ll_gpio.h"
@@ -72,13 +73,17 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LD1_Pin GPIO_PIN_13
 #define LD1_GPIO_Port GPIOC
-#define LCD_DC_Pin GPIO_PIN_14
-#define LCD_DC_GPIO_Port GPIOC
-#define LCD_RES_Pin GPIO_PIN_15
-#define LCD_RES_GPIO_Port GPIOC
 #define BTN_0_Pin GPIO_PIN_0
 #define BTN_0_GPIO_Port GPIOA
 #define BTN_0_EXTI_IRQn EXTI0_IRQn
+#define SENSOR_IN1_Pin GPIO_PIN_1
+#define SENSOR_IN1_GPIO_Port GPIOA
+#define SENSOR_IN2_Pin GPIO_PIN_2
+#define SENSOR_IN2_GPIO_Port GPIOA
+#define SENSOR_IN3_Pin GPIO_PIN_3
+#define SENSOR_IN3_GPIO_Port GPIOA
+#define LIGHT_IN1_Pin GPIO_PIN_6
+#define LIGHT_IN1_GPIO_Port GPIOA
 #define LCD_SCK_Pin GPIO_PIN_0
 #define LCD_SCK_GPIO_Port GPIOB
 #define LCD_CS_Pin GPIO_PIN_1
@@ -90,18 +95,26 @@ void Error_Handler(void);
 #define T_SCK_GPIO_Port GPIOB
 #define T_CS_Pin GPIO_PIN_12
 #define T_CS_GPIO_Port GPIOB
-#define LCD_LED_Pin GPIO_PIN_13
-#define LCD_LED_GPIO_Port GPIOB
+#define LCD_DC_Pin GPIO_PIN_13
+#define LCD_DC_GPIO_Port GPIOB
 #define T_MISO_Pin GPIO_PIN_14
 #define T_MISO_GPIO_Port GPIOB
 #define T_MOSI_Pin GPIO_PIN_15
 #define T_MOSI_GPIO_Port GPIOB
+#define OUT1_Pin GPIO_PIN_8
+#define OUT1_GPIO_Port GPIOA
+#define OUT2_Pin GPIO_PIN_9
+#define OUT2_GPIO_Port GPIOA
 #define LCD_MOSI_Pin GPIO_PIN_10
 #define LCD_MOSI_GPIO_Port GPIOA
-#define ENCODER_P2_Pin GPIO_PIN_6
-#define ENCODER_P2_GPIO_Port GPIOB
-#define ENCODER_P1_Pin GPIO_PIN_7
-#define ENCODER_P1_GPIO_Port GPIOB
+#define LCD_LED_Pin GPIO_PIN_15
+#define LCD_LED_GPIO_Port GPIOA
+#define LCD_RES_Pin GPIO_PIN_5
+#define LCD_RES_GPIO_Port GPIOB
+#define OUT4_Pin GPIO_PIN_6
+#define OUT4_GPIO_Port GPIOB
+#define OUT3_Pin GPIO_PIN_7
+#define OUT3_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 extern volatile uint16_t tim1Ch1_fill;
 extern volatile uint16_t tim1Ch2_fill;
