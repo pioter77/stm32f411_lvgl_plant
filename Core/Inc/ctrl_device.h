@@ -19,6 +19,7 @@ void ctrl_device_init(void);
 void ctrl_device(void);
 void ctrl_device_lcdbrightness(void);
 void ctrl_device_dateTime(void);
+void ctrl_device_humiUpdate(void);
 
 /*
 enum ledstripsStates{MANUAL=1, AUTOSENSOR, AUTOTIME};

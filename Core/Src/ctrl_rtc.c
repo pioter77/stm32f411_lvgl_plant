@@ -29,15 +29,17 @@ void rtc_init(void)
 
 void rtc_update(void)
 {
-	RTC_CTRL.day_c= 	LL_RTC_DATE_GetDay(RTC);
-	RTC_CTRL.month_c= 	LL_RTC_DATE_GetMonth(RTC);
-	RTC_CTRL.year_c= 	LL_RTC_DATE_GetYear(RTC);
+	RTC_CTRL.hour_c= 	__LL_RTC_CONVERT_BCD2BIN(LL_RTC_TIME_GetHour(RTC));
+	RTC_CTRL.minutes_c= __LL_RTC_CONVERT_BCD2BIN(LL_RTC_TIME_GetMinute(RTC));
+	RTC_CTRL.seconds_c= __LL_RTC_CONVERT_BCD2BIN(LL_RTC_TIME_GetSecond(RTC));
 
-	RTC_CTRL.dayWeek_c= LL_RTC_DATE_GetWeekDay(RTC);
+	RTC_CTRL.day_c= 	__LL_RTC_CONVERT_BCD2BIN(LL_RTC_DATE_GetDay(RTC));
+	RTC_CTRL.month_c= 	__LL_RTC_CONVERT_BCD2BIN(LL_RTC_DATE_GetMonth(RTC));
+	RTC_CTRL.year_c= 	__LL_RTC_CONVERT_BCD2BIN(LL_RTC_DATE_GetYear(RTC));
 
-	RTC_CTRL.hour_c= 	LL_RTC_TIME_GetHour(RTC);
-	RTC_CTRL.minutes_c= LL_RTC_TIME_GetMinute(RTC);
-	RTC_CTRL.seconds_c= LL_RTC_TIME_GetSecond(RTC);
+	RTC_CTRL.dayWeek_c= __LL_RTC_CONVERT_BCD2BIN(LL_RTC_DATE_GetWeekDay(RTC));
+
+
 }
 
 void rtc_allow_set(void)

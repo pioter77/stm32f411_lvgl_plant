@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "ctrl_timers.h"
+#include "ctrl_measure.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -284,7 +285,7 @@ void TIM5_IRQHandler(void)
 void DMA2_Stream0_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
-
+	adc_dma_isr_handler();
   /* USER CODE END DMA2_Stream0_IRQn 0 */
 
   /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
