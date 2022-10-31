@@ -11,10 +11,13 @@
 #include "main.h"
 #include "adc.h"
 #include "ctrl_process.h"
+#include "string.h"
+#include "stdlib.h"
+
 
 #define ADC_NO_CONV 4
 #define ADC_NO_CONV_END (ADC_NO_CONV-1)
-
+#define ADC_FILTER_LEN 128			//no of samples
 typedef struct CTRL_MEAS_T{
 
 }CTRL_MEAS_t;
@@ -32,12 +35,27 @@ typedef struct ADC_T{
 
 extern ADC_t ADC_MEAS;
 
+//#pragma message( "C Preprocessor got here!" )
+#if ADC_NO_CONV > 1
+	extern volatile uint16_t adc_median_buff1[ADC_FILTER_LEN];
+#endif
+#if ADC_NO_CONV > 1
+	extern volatile uint16_t adc_median_buff2[ADC_FILTER_LEN];
+#endif
+#if ADC_NO_CONV > 2
+	extern volatile uint16_t adc_median_buff3[ADC_FILTER_LEN];
+#endif
+#if ADC_NO_CONV > 3
+	extern volatile uint16_t adc_median_buff4[ADC_FILTER_LEN];
+#endif
+//cannot be more than 4 adc median buffers becouse there is no more adc pins available on pcb
+
 void ctrl_measure(void);				//in this function we interract with process that will get adc values
 
 void adc_init(void);
 //void adc_update(void);
 void adc_dma_isr_handler(void);
 void ctrl_measure_init(void);
-
-
+uint16_t adc_median_filter(uint16_t input_val, uint16_t *buff);		//return filtered value
+int compare_fcn(const void *a, const void *b);
 #endif /* INC_CTRL_MEASURE_H_ */

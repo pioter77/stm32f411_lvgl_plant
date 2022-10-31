@@ -13,14 +13,26 @@ ADC_t ADC_MEAS={
 	.adc=ADC1,
 	.dma= DMA2,
 	.dma_channel= LL_DMA_STREAM_0,
-	.adc_conv_max= ADC_NO_CONV_END,
+	.adc_conv_max= ADC_NO_CONV,
 	.isConvFinished= ADC_CONV_NOT_FINISHED,
 	.adc_buff[0 ... ADC_NO_CONV_END]=0,
+
 };
 
 
 
-
+#if ADC_NO_CONV > 1
+	 volatile uint16_t adc_median_buff1[ADC_FILTER_LEN];
+#endif
+#if ADC_NO_CONV > 1
+	 volatile uint16_t adc_median_buff2[ADC_FILTER_LEN];
+#endif
+#if ADC_NO_CONV > 2
+	 volatile uint16_t adc_median_buff3[ADC_FILTER_LEN];
+#endif
+#if ADC_NO_CONV > 3
+	 volatile uint16_t adc_median_buff4[ADC_FILTER_LEN];
+#endif
 
 
 
@@ -68,10 +80,38 @@ void ctrl_measure_init(void)
 
 void ctrl_measure(void)
 {
-	PLANT1.moisture_level_raw= ADC_MEAS.adc_buff[0];
-	PLANT2.moisture_level_raw= ADC_MEAS.adc_buff[1];
+//	PLANT1.moisture_level_raw= ADC_MEAS.adc_buff[0];
+//	PLANT2.moisture_level_raw= ADC_MEAS.adc_buff[1];
+	PLANT1.moisture_level_raw= adc_median_filter(ADC_MEAS.adc_buff[0], (uint16_t *)adc_median_buff1);
+	PLANT2.moisture_level_raw= adc_median_filter(ADC_MEAS.adc_buff[1], (uint16_t *)adc_median_buff2);
+
 	PLANT1.moisture_level= (uint16_t)((PLANT1.moisture_level_raw/4095.0)*100.0);
 	PLANT2.moisture_level= (uint16_t)((PLANT2.moisture_level_raw/4095.0)*100.0);
 //	ADC_MEAS.adc_buff[2];
 //	ADC_MEAS.adc_buff[3];
+}
+
+uint16_t adc_median_filter(uint16_t input_val, uint16_t *buff)
+{
+	uint16_t buff_med[ADC_FILTER_LEN];
+	memcpy(buff_med, (buff+1), ADC_FILTER_LEN-1);
+	buff_med[ADC_FILTER_LEN-1]= input_val;
+	qsort(buff_med, ADC_FILTER_LEN, sizeof(uint16_t), compare_fcn);
+	volatile uint16_t ret_val= (buff_med[ADC_FILTER_LEN/2-1]+buff_med[ADC_FILTER_LEN/2])/2;
+
+	for(uint8_t i=0; i<ADC_FILTER_LEN-1; i++) buff[i]= buff[i+1];
+	buff[ADC_FILTER_LEN-1]= input_val;
+	return ret_val;
+}
+
+int compare_fcn(const void *a, const void *b)
+{
+	const uint16_t a_bak= *(const uint16_t *)a;
+	const uint16_t b_bak= *(const uint16_t *)b;
+
+	if(a_bak < b_bak) return -1;
+	else if(a_bak > b_bak) return 1;
+	else return 0;
+
+
 }
