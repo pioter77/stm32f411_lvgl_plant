@@ -7,7 +7,7 @@
 
 
 #include "ctrl_rtc.h"
-
+#include "debug.h"
 
 RTC_t RTC_CTRL={
 		.rtcSetFlag= RTC_FLAG_NO_SET,
@@ -55,7 +55,7 @@ void rtc_set(void)
 		LL_RTC_EnableInitMode(RTC);
 		while(LL_RTC_IsActiveFlag_INIT(RTC) != 1)
 		{
-			#ifdef DEBUG_DEVICE
+			#if DEBUG_DEVICE
 			printf("\n wait for rtc availability to edit");
 			#endif
 		}
@@ -68,7 +68,7 @@ void rtc_set(void)
 
 		while(LL_RTC_IsActiveFlag_RS(RTC) != 1)
 		{
-			#ifdef DEBUG_DEVICE
+			#if DEBUG_DEVICE
 			printf("\n waiting for rtc to sunchronize");
 			#endif
 		}

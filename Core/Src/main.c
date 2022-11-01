@@ -17,6 +17,7 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <ctrl_ui.h>
 #include "main.h"
 #include "adc.h"
 #include "dma.h"
@@ -38,14 +39,15 @@
 
 //#include "logo.h"
 
-#include "../../lvgl/examples/lv_examples.h"
+//#include "../../lvgl/examples/lv_examples.h"
 
 #include "../UI/ui.h"
 
 #include "control.h"
-#include "fcnUi_chart.h"
 #include "ctrl_device.h"
 #include "ctrl_measure.h"
+#include "ctrl_ui.h"
+#include "debug.h"
 //#include "../../lvgl/demos/lv_demos.h"
 /* USER CODE END Includes */
 
@@ -189,8 +191,9 @@ int main(void)
  // lv_example_menu_5();
   //lv_example_tabview_1();
   ui_init();
-  fcnUi_chart_init();
-  fcnUi_chart_update();
+  cui_init();
+printf("\n dupa init!");
+
 
 //  uint32_t LedTim0;
   uint32_t lvglTime=0;

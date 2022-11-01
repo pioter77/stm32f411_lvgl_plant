@@ -116,6 +116,9 @@ void Error_Handler(void);
 #define OUT3_Pin GPIO_PIN_7
 #define OUT3_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
+#define DEBUG_DEVICE 1		//if 1 there will be printf messages compiled and displayed
+
+
 extern volatile uint16_t tim1Ch1_fill;
 extern volatile uint16_t tim1Ch2_fill;
 /* USER CODE END Private defines */

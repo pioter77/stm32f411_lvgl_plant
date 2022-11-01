@@ -22,7 +22,7 @@ void ctrl_device_init(void)
 
 void ctrl_device(void)
 {
-	ctrl_device_lcdbrightness();
+
 	ctrl_device_dateTime();
 	ctrl_device_humiUpdate();
 }
