@@ -12,12 +12,20 @@
 #include "stdio.h"
 #include "ctrl_process.h"
 
+LCD_PWM_t LCD_PWM={
+		.tim= TIM2,
+		.channel= LL_TIM_CHANNEL_CH1,
+		.fill=0		// current fill value
+};
+
+
+
 void ctrl_device_init(void)
 {
 	lcd_pwm_init(&LCD_PWM,50);
 	rtc_init();
-	rtc_allow_set();
-	rtc_set();
+//	rtc_allow_set();
+//	rtc_set();
 }
 
 void ctrl_device(void)
@@ -54,5 +62,33 @@ void ctrl_device_humiUpdate(void)
 	sprintf((char *)buff2, "%.2d%% / %.2d%%", PLANT2.moisture_level, PLANT2.moisture_threshold);
 	lv_label_set_text(ui_Out1Label, buff1);
 	lv_label_set_text(ui_Out2Label, buff2);
+}
+
+
+
+
+void lcd_pwm_init(LCD_PWM_t *lcd_pwm, uint8_t fill)
+{
+	//enable lcd pwm brightness controll timer
+		  //LL_TIM_EnableIT_UPDATE(lcd_pwm->tim);
+		  LL_TIM_CC_EnableChannel(lcd_pwm->tim, lcd_pwm->channel);
+		//  LL_TIM_OC_SetCompareCH1(lcd_pwm->tim, 0);
+		  LL_TIM_EnableAutomaticOutput(lcd_pwm->tim);
+		  LL_TIM_EnableCounter(lcd_pwm->tim);
+
+		  lcd_pwm_set_fill(lcd_pwm, fill);
+
+}
+
+void lcd_pwm_set_fill(LCD_PWM_t *lcd_pwm, uint8_t fill)
+{
+	  if((fill>= 0) && (fill <=100))
+	  {
+		  LL_TIM_OC_SetCompareCH1(lcd_pwm->tim,  (uint32_t)(LL_TIM_GetAutoReload(lcd_pwm->tim)*(uint32_t)fill/(uint32_t)100));	//convert % vals to arr timer values
+		  lcd_pwm->fill= fill;
+	  }else{
+		  LL_TIM_OC_SetCompareCH1(lcd_pwm->tim, LL_TIM_GetAutoReload(lcd_pwm->tim));	//full blast when value out of range
+		  lcd_pwm->fill= LL_TIM_GetAutoReload(lcd_pwm->tim);
+	  }
 }
 

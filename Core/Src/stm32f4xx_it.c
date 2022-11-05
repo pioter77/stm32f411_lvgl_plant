@@ -18,12 +18,13 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+
 #include "main.h"
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "ctrl_timers.h"
 #include "ctrl_measure.h"
+#include "ctrl_device.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

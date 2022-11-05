@@ -8,6 +8,7 @@
 #ifndef INC_CTRL_UI_H_
 #define INC_CTRL_UI_H_
 
+#include <ctrl_timing.h>
 #include "../UI/ui.h"
 #include "../UI/ui_helpers.h"
 
@@ -15,7 +16,6 @@
 #include "ctrl_rtc.h"
 #include "ctrl_measure.h"
 #include "ctrl_process.h"
-#include "ctrl_timers.h"
 
 typedef enum {OUT1_CONF=1,
 			  OUT2_CONF=2

@@ -110,12 +110,22 @@ void cui_Out2_clicked(lv_event_t * event)
 
 void cui_Out1Switch_toggled(lv_event_t * event)
 {
-	PLANT1.isOn= lv_obj_has_state(ui_Out1Switch, LV_STATE_CHECKED);
+	if( lv_obj_has_state(ui_Out1Switch, LV_STATE_CHECKED))
+	{
+		plant_switch_on(&PLANT1);
+	}else{
+		plant_switch_off(&PLANT1);
+	}
 }
 
 void cui_Out2Switch_toggled(lv_event_t * event)
 {
-	PLANT1.isOn= lv_obj_has_state(ui_Out2Switch, LV_STATE_CHECKED);
+	if( lv_obj_has_state(ui_Out2Switch, LV_STATE_CHECKED))
+	{
+		plant_switch_on(&PLANT2);
+	}else{
+		plant_switch_off(&PLANT2);
+	}
 }
 
 void cui_OutputThrshld_changed(lv_event_t * event)
@@ -166,5 +176,23 @@ void cui_ScreenBrightness_changed(lv_event_t * event)
 void cui_SaveClockDate_clicked(lv_event_t * event)
 {
 
+	char buff4[]="0000";
+	char buff2[]="00";
+	lv_dropdown_get_selected_str(ui_DaySetLabel, buff2, sizeof(buff2));
+	RTC_CTRL.day_s=  	 (uint8_t)strtoul(buff2, NULL, 10);
+	lv_dropdown_get_selected_str(ui_MonthSetLabel, buff2, sizeof(buff2));
+	RTC_CTRL.month_s=    (uint8_t)strtoul(buff2, NULL, 10);
+	lv_dropdown_get_selected_str(ui_YearSetLabel, buff4, sizeof(buff4));
+	RTC_CTRL.year_s=  	 (uint8_t)(strtoul(buff4, NULL, 10)-2000);
+
+	lv_dropdown_get_selected_str(ui_HourSetLabel, buff2, sizeof(buff2));
+	RTC_CTRL.hour_s=  	 (uint8_t)strtoul(buff2, NULL, 10);
+	lv_dropdown_get_selected_str(ui_MinsSetLabel, buff2, sizeof(buff2));
+	RTC_CTRL.minutes_s=  (uint8_t)strtoul(buff2, NULL, 10);
+	RTC_CTRL.seconds_s=  0;
+
+
+	rtc_allow_set();
+	rtc_set();
 }
 //*************************************************************************************************************

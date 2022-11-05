@@ -60,8 +60,14 @@ void rtc_set(void)
 			#endif
 		}
 
-		LL_RTC_DATE_Config(RTC, RTC_CTRL.dayWeek_s, RTC_CTRL.day_s, RTC_CTRL.month_s, RTC_CTRL.year_s);
-		LL_RTC_TIME_Config(RTC, LL_RTC_TIME_FORMAT_AM_OR_24, RTC_CTRL.hour_s, RTC_CTRL.minutes_s, RTC_CTRL.seconds_s);
+		LL_RTC_DATE_Config(RTC, __LL_RTC_CONVERT_BIN2BCD(RTC_CTRL.dayWeek_s),
+								__LL_RTC_CONVERT_BIN2BCD(RTC_CTRL.day_s),
+								__LL_RTC_CONVERT_BIN2BCD(RTC_CTRL.month_s),
+								__LL_RTC_CONVERT_BIN2BCD(RTC_CTRL.year_s));
+		LL_RTC_TIME_Config(RTC, LL_RTC_TIME_FORMAT_AM_OR_24,
+								__LL_RTC_CONVERT_BIN2BCD(RTC_CTRL.hour_s),
+								__LL_RTC_CONVERT_BIN2BCD(RTC_CTRL.minutes_s),
+								__LL_RTC_CONVERT_BIN2BCD(RTC_CTRL.seconds_s));
 
 		LL_RTC_DisableInitMode(RTC);
 		LL_RTC_ClearFlag_RS(RTC);

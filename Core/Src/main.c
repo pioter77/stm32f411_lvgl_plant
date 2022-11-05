@@ -43,11 +43,12 @@
 
 #include "../UI/ui.h"
 
-#include "control.h"
+
 #include "ctrl_device.h"
 #include "ctrl_measure.h"
 #include "ctrl_ui.h"
 #include "debug.h"
+#include "ctrl_process.h"
 //#include "../../lvgl/demos/lv_demos.h"
 /* USER CODE END Includes */
 
@@ -152,6 +153,8 @@ int main(void)
 //**********************************************************************************************************************
   ctrl_device_init();
   ctrl_measure_init();
+  ctrl_plant_init(&PLANT1);
+  ctrl_plant_init(&PLANT2);
 //**********************************************************************************************************************
 
   //end of pwm timer init
@@ -192,7 +195,7 @@ int main(void)
   //lv_example_tabview_1();
   ui_init();
   cui_init();
-printf("\n dupa init!");
+printf("\n init!");
 
 
 //  uint32_t LedTim0;
@@ -210,10 +213,11 @@ printf("\n dupa init!");
 		  lv_task_handler();
 		  lv_timer_handler();
 
-		  //tim1Ch1_fill=100;
-		  //tim1Ch2_fill=900;
-		  pump_ctrl();
+
+
 		  ctrl_device();
+		  ctrl_plant_ctrl(&PLANT1);
+		  ctrl_plant_ctrl(&PLANT2);
 		  //encoder_Pos= TIM4->CNT;
 
 

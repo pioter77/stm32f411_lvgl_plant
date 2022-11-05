@@ -10,7 +10,8 @@
 
 #include "main.h"
 #include "ctrl_measure.h"
-
+#include "ctrl_output.h"
+#include "ctrl_rtc.h"
 
 typedef enum {PLANT_IS_OFF=0, PLANT_IS_ON} plantIsOn_t;
 typedef enum {PLANT_STATE_OFF= 0, PLANT_STATE_STANDBY, PLANT_STATE_WATERING, PLANT_STATE_CHECKING, PLANT_STATE_WAITING} plantState_t;
@@ -35,13 +36,20 @@ typedef struct PLANT_T{
 	uint16_t pump_duration;					//specified pump running time
 	uint16_t pump_life;						//read from memory
 
+	uint8_t watering_cycle_cnt;				//number of times pump was on this day
+	uint8_t watering_cycle_max;				//max number of watering cycles ofr this plant per day
+
 	uint16_t moisture_level_raw;			//raw adc readout 0-4095
+
+
+	PWM_OUT_t Pwm_out;						//pump pwm output control structure
 }PLANT_t;
 
 extern PLANT_t PLANT1;
 extern PLANT_t PLANT2;
 
 void ctrl_plant_init(PLANT_t *plant);
+void plant_load_settings(PLANT_t *plant);			//load settings from non volatile memory after bootup
 void ctrl_plant_ctrl(PLANT_t *plant);
 
 void plant_switch_off(PLANT_t *plant);

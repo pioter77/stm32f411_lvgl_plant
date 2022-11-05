@@ -1,6 +1,6 @@
 // SquareLine LVGL GENERATED FILE
-// EDITOR VERSION: SquareLine Studio 1.1.1
-// LVGL VERSION: 8.2.0
+// EDITOR VERSION: SquareLine Studio 1.1.0
+// LVGL VERSION: 8.2
 // PROJECT: lvgl_plant
 
 #ifndef _LVGL_PLANT_UI_H
@@ -10,7 +10,17 @@
 extern "C" {
 #endif
 
-#include "../lvgl/lvgl.h"
+#if defined __has_include
+#if __has_include("lvgl.h")
+#include "lvgl.h"
+#elif __has_include("lvgl/lvgl.h")
+#include "lvgl/lvgl.h"
+#else
+#include "lvgl.h"
+#endif
+#else
+#include "lvgl.h"
+#endif
 
 void MenuBring1_Animation(lv_obj_t * TargetObject, int delay);
 void MenuHide1_Animation(lv_obj_t * TargetObject, int delay);
