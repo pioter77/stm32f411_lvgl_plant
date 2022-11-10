@@ -17,7 +17,6 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include <ctrl_ui.h>
 #include "main.h"
 #include "adc.h"
 #include "dma.h"
@@ -25,6 +24,7 @@
 #include "rtc.h"
 #include "spi.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -134,8 +134,8 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM5_Init();
   MX_TIM2_Init();
-  MX_TIM4_Init();
   MX_RTC_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   //timer init for pwm output:
 
@@ -159,7 +159,7 @@ int main(void)
 
   //end of pwm timer init
   ILI9341_Init();
-  XPT2046_Init(&hspi2, EXTI2_IRQn);
+  XPT2046_Init(&hspi2, EXTI0_IRQn);
   HAL_Delay(30);
 
   	  lv_init();

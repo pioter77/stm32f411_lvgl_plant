@@ -251,7 +251,7 @@ void XPT2046_Task(void)
 void XPT2046_IRQ(void)
 {
 	// Disable IRQ for avoid false IRQs (Datasheet)
-	HAL_NVIC_DisableIRQ(EXTI2_IRQn);
+	HAL_NVIC_DisableIRQ(EXTI0_IRQn);
 	// Jump to PRESAMPLING state
 	TouchState = XPT2046_PRESAMPLING;
 }

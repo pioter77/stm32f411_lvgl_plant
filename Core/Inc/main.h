@@ -41,6 +41,7 @@ extern "C" {
 #include "stm32f4xx_ll_rtc.h"
 #include "stm32f4xx_ll_spi.h"
 #include "stm32f4xx_ll_tim.h"
+#include "stm32f4xx_ll_usart.h"
 #include "stm32f4xx_ll_gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -73,9 +74,9 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LD1_Pin GPIO_PIN_13
 #define LD1_GPIO_Port GPIOC
-#define BTN_0_Pin GPIO_PIN_0
-#define BTN_0_GPIO_Port GPIOA
-#define BTN_0_EXTI_IRQn EXTI0_IRQn
+#define T_IRQ_Pin GPIO_PIN_0
+#define T_IRQ_GPIO_Port GPIOA
+#define T_IRQ_EXTI_IRQn EXTI0_IRQn
 #define SENSOR_IN1_Pin GPIO_PIN_1
 #define SENSOR_IN1_GPIO_Port GPIOA
 #define SENSOR_IN2_Pin GPIO_PIN_2
@@ -86,11 +87,10 @@ void Error_Handler(void);
 #define LIGHT_IN1_GPIO_Port GPIOA
 #define LCD_SCK_Pin GPIO_PIN_0
 #define LCD_SCK_GPIO_Port GPIOB
-#define LCD_CS_Pin GPIO_PIN_1
+#define SENSOR_IN4_Pin GPIO_PIN_1
+#define SENSOR_IN4_GPIO_Port GPIOB
+#define LCD_CS_Pin GPIO_PIN_2
 #define LCD_CS_GPIO_Port GPIOB
-#define T_IRQ_Pin GPIO_PIN_2
-#define T_IRQ_GPIO_Port GPIOB
-#define T_IRQ_EXTI_IRQn EXTI2_IRQn
 #define T_SCK_Pin GPIO_PIN_10
 #define T_SCK_GPIO_Port GPIOB
 #define T_CS_Pin GPIO_PIN_12
@@ -111,10 +111,6 @@ void Error_Handler(void);
 #define LCD_LED_GPIO_Port GPIOA
 #define LCD_RES_Pin GPIO_PIN_5
 #define LCD_RES_GPIO_Port GPIOB
-#define OUT4_Pin GPIO_PIN_6
-#define OUT4_GPIO_Port GPIOB
-#define OUT3_Pin GPIO_PIN_7
-#define OUT3_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 #define DEBUG_DEVICE 1		//if 1 there will be printf messages compiled and displayed
 
