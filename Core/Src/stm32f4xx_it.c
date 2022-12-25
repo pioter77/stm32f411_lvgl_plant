@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "ctrl_measure.h"
 #include "ctrl_device.h"
+#include "ctrl_timing.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -258,7 +259,7 @@ void TIM2_IRQHandler(void)
 void TIM5_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM5_IRQn 0 */
-
+	co_timing_ISR(&TIMING);
   /* USER CODE END TIM5_IRQn 0 */
   /* USER CODE BEGIN TIM5_IRQn 1 */
 

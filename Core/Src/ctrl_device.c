@@ -11,6 +11,7 @@
 #include "ctrl_measure.h"
 #include "stdio.h"
 #include "ctrl_process.h"
+#include "ctrl_timing.h"
 
 LCD_PWM_t LCD_PWM={
 		.tim= TIM2,
@@ -31,8 +32,14 @@ void ctrl_device_init(void)
 void ctrl_device(void)
 {
 
-	ctrl_device_dateTime();
-	ctrl_device_humiUpdate();
+	  if(timingIsUp(&TIMING.tims_1000ms1))
+	  {
+		 // LL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
+			ctrl_device_dateTime();
+			ctrl_device_humiUpdate();
+		  timingRestart(&TIMING.tims_1000ms1);
+	  }
+
 }
 
 

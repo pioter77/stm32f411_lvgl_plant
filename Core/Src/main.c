@@ -49,6 +49,7 @@
 #include "ctrl_ui.h"
 #include "debug.h"
 #include "ctrl_process.h"
+#include "ctrl_timing.h"
 //#include "../../lvgl/demos/lv_demos.h"
 /* USER CODE END Includes */
 
@@ -155,6 +156,7 @@ int main(void)
   ctrl_measure_init();
   ctrl_plant_init(&PLANT1);
   ctrl_plant_init(&PLANT2);
+  co_timing_init(&TIMING);
 //**********************************************************************************************************************
 
   //end of pwm timer init
@@ -207,6 +209,8 @@ printf("\n init!");
   while (1)
   {
 
+	  ctrl_device();
+
 	  if(HAL_GetTick()- lvglTime >=2)
 	  {
 		  lvglTime=HAL_GetTick();
@@ -215,7 +219,7 @@ printf("\n init!");
 
 
 
-		  ctrl_device();
+
 		  ctrl_plant_ctrl(&PLANT1);
 		  ctrl_plant_ctrl(&PLANT2);
 		  //encoder_Pos= TIM4->CNT;
@@ -223,6 +227,7 @@ printf("\n init!");
 
 	  }
 	  XPT2046_Task();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
