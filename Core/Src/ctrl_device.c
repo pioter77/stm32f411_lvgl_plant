@@ -12,6 +12,7 @@
 #include "stdio.h"
 #include "ctrl_process.h"
 #include "ctrl_timing.h"
+#include "ctrl_htu21d.h"
 
 LCD_PWM_t LCD_PWM={
 		.tim= TIM2,
@@ -25,6 +26,7 @@ void ctrl_device_init(void)
 {
 	lcd_pwm_init(&LCD_PWM,50);
 	rtc_init();
+//	htu21d_init(&HTU21D, &hi2c1);
 //	rtc_allow_set();
 //	rtc_set();
 }

@@ -111,6 +111,7 @@ void Error_Handler(void);
 #define LCD_LED_GPIO_Port GPIOA
 #define LCD_RES_Pin GPIO_PIN_5
 #define LCD_RES_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 #define DEBUG_DEVICE 1		//if 1 there will be printf messages compiled and displayed
 

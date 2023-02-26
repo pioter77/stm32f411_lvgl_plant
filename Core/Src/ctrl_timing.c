@@ -38,6 +38,11 @@ timing_t TIMING={
 		.tims_1000ms1= {0,0,0,0},
 		.tims_1000ms2= {0,0,0,0},
 		.tims_1000ms3= {0,0,0,0},
+		.tims_plant1Check= {0,0,0,0},
+		.tims_plant2Check= {0,0,0,0},
+		.tims_plant1Water= {0,0,0,0},
+		.tims_plant2Water= {0,0,0,0},
+
 };
 
 void co_timing_init(timing_t *ctrl_t)
@@ -60,6 +65,9 @@ void co_timing_init(timing_t *ctrl_t)
 	timingStart(&ctrl_t->tims_1000ms1);
 	timingStart(&ctrl_t->tims_1000ms2);
 	timingStart(&ctrl_t->tims_1000ms3);
+
+
+
 }
 
 void co_timing_ISR(timing_t *ctrl_t)
@@ -71,6 +79,14 @@ void co_timing_ISR(timing_t *ctrl_t)
 		timingCount(&ctrl_t->tims_1000ms1);
 		timingCount(&ctrl_t->tims_1000ms2);
 		timingCount(&ctrl_t->tims_1000ms3);
+
+
+		//timing for plants:
+		timingCount(&ctrl_t->tims_plant1Check);
+		timingCount(&ctrl_t->tims_plant2Check);
+		timingCount(&ctrl_t->tims_plant1Water);
+		timingCount(&ctrl_t->tims_plant2Water);
+
 
 	}
 }
@@ -86,11 +102,11 @@ _Bool timingIsUp(tims_t *tims)
 	}
 }
 
-//_Bool timingIsOn(tims_t *tims)
-//{
-//
-//	return 0;
-//}
+_Bool timingIsOn(tims_t *tims)
+{
+
+	return (_Bool)(tims->isOn);
+}
 
 void timingSetLength(tims_t *tims, uint32_t length)
 {
@@ -113,6 +129,8 @@ void timingStart(tims_t *tims)
 void timingStop(tims_t *tims)
 {
 	tims->isOn= 0;
+	tims->count= 0;
+	tims->isUp= 0;
 }
 
 //called in isr:

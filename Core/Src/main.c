@@ -48,8 +48,10 @@
 #include "ctrl_measure.h"
 #include "ctrl_ui.h"
 #include "debug.h"
-#include "ctrl_process.h"
 #include "ctrl_timing.h"
+#include "ctrl_process.h"
+
+#include "ctrl_htu21d.h"
 //#include "../../lvgl/demos/lv_demos.h"
 /* USER CODE END Includes */
 
@@ -154,9 +156,11 @@ int main(void)
 //**********************************************************************************************************************
   ctrl_device_init();
   ctrl_measure_init();
+  co_timing_init(&TIMING);
+
   ctrl_plant_init(&PLANT1);
   ctrl_plant_init(&PLANT2);
-  co_timing_init(&TIMING);
+
 //**********************************************************************************************************************
 
   //end of pwm timer init
@@ -197,7 +201,7 @@ int main(void)
   //lv_example_tabview_1();
   ui_init();
   cui_init();
-printf("\n init!");
+  printf("\n init!");
 
 
 //  uint32_t LedTim0;
@@ -227,6 +231,8 @@ printf("\n init!");
 
 	  }
 	  XPT2046_Task();
+
+//	  ctrl_htu21d(&HTU21D);
 
     /* USER CODE END WHILE */
 

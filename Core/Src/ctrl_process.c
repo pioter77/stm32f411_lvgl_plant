@@ -18,10 +18,15 @@ PLANT_t PLANT1= {
 	.time_window_start=			6,
 	.watering_cycle_cnt=		0,
 	.watering_cycle_max=		3,
+	.pump_duration=				0,
 	.Pwm_out={
 			.tim=				TIM1,
 			.tim_channel= 		LL_TIM_CHANNEL_CH1,
-	}
+	},
+	.Timing_watering=			&TIMING.tims_plant1Water,
+	.Timing_checking=			&TIMING.tims_plant1Check,
+	.Timing_life=				&TIMING.tims_plant1Life,
+	.wateringIsDone=			0,
 };
 
 PLANT_t PLANT2= {
@@ -34,28 +39,39 @@ PLANT_t PLANT2= {
 	.time_window_start=			6,
 	.watering_cycle_cnt=		0,
 	.watering_cycle_max=		3,
+	.pump_duration=				0,
 	.Pwm_out={
 			.tim=				TIM1,
 			.tim_channel= 		LL_TIM_CHANNEL_CH2,
-	}
-
+	},
+	.Timing_watering=			&TIMING.tims_plant2Water,
+	.Timing_checking=			&TIMING.tims_plant2Check,
+	.Timing_life=				&TIMING.tims_plant2Life,
+	.wateringIsDone=			0,
 };
+
 void ctrl_plant_init(PLANT_t *plant)
 {
 
 	co_pwm_init(&(plant->Pwm_out));
 	co_pwm_set_power(&(plant->Pwm_out), plant->pump_power);
+
+	timingSetLength(plant->Timing_watering, 5000);
+	timingSetLength(plant->Timing_checking, 60000);
 }
 
 void ctrl_plant_ctrl(PLANT_t *plant)
 {
+
+	//watering cycles umber should be reseeted after day passed in function here or (automatically)
+//	or when plant is toggled on off (manuallly)
 	if(plant->isOn == PLANT_IS_OFF) plant->plantState= PLANT_STATE_OFF;
 	else if(plant->isOn == PLANT_IS_ON)
 	{
 		//switch is turned to on posiion so plant process is running
 		if(plant->moisture_level < plant->moisture_threshold)				//watering is neeed
 		{
-			if(RTC_CTRL.hour_c >= plant->time_window_start && RTC_CTRL.hour_c < plant->time_window_end && plant->watering_cycle_cnt == 0)	//watering can only start when whithin specified time window
+			if(RTC_CTRL.hour_c >= plant->time_window_start && RTC_CTRL.hour_c < plant->time_window_end && !plant->wateringIsDone)	//watering can only start when whithin specified time window
 			{
 				plant->plantState= PLANT_STATE_WATERING;
 			}else if(RTC_CTRL.hour_c >= plant->time_window_start && RTC_CTRL.hour_c < plant->time_window_end && plant->watering_cycle_cnt < plant->watering_cycle_max){
@@ -131,16 +147,53 @@ void plant_mode_STANDBY(PLANT_t *plant)
 
 void plant_mode_WATERING(PLANT_t *plant)
 {
-	co_pwm_set_power(&(plant->Pwm_out), plant->pump_power);
+
+	if(!timingIsOn(plant->Timing_watering))
+	{
+		timingSetLength(plant->Timing_watering, plant->pump_duration*1000);
+		timingStart(plant->Timing_watering);
+		co_pwm_set_power(&(plant->Pwm_out), plant->pump_power);
+	}
+
+	if(timingIsUp(plant->Timing_watering))
+	{
+		plant->watering_cycle_cnt++;
+		co_pwm_set_power(&(plant->Pwm_out), 0);
+		timingStop(plant->Timing_watering);
+//		timingRestart(plant->Timing_watering);
+		plant->wateringIsDone= 1;			//so we can proceed to checking state
+	}
+
 }
 
 void plant_mode_CHECKING(PLANT_t *plant)
 {
-	co_pwm_set_power(&(plant->Pwm_out), 0);
+
+	if(!timingIsOn(plant->Timing_checking))
+	{
+		timingSetLength(plant->Timing_checking, 60000);		//60s
+		timingStart(plant->Timing_checking);
+		co_pwm_set_power(&(plant->Pwm_out), 0);
+	}
+
+	if(timingIsUp(plant->Timing_checking))
+	{
+//		plant->watering_cycle_cnt++;
+		co_pwm_set_power(&(plant->Pwm_out), 0);
+		timingStop(plant->Timing_checking);
+//		timingRestart(plant->Timing_checking);
+		plant->wateringIsDone= 0;			//so we can proceed to watering state again becouse moisture level hasnt risen enough
+	}
+//	co_pwm_set_power(&(plant->Pwm_out), 0);
 }
 
 void plant_mode_WAITING(PLANT_t *plant)
 {
 	co_pwm_set_power(&(plant->Pwm_out), 0);
+}
+
+void plant_keep_track_of_life(PLANT_t *plant)
+{
+
 }
 

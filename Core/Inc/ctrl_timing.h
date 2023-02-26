@@ -26,6 +26,13 @@ typedef struct timing_T{
 	tims_t tims_1000ms1;
 	tims_t tims_1000ms2;
 	tims_t tims_1000ms3;
+
+	tims_t tims_plant1Check;
+	tims_t tims_plant1Water;
+	tims_t tims_plant1Life;
+	tims_t tims_plant2Check;
+	tims_t tims_plant2Water;
+	tims_t tims_plant2Life;
 }timing_t;
 
 extern timing_t TIMING;

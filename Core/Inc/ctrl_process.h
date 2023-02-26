@@ -12,6 +12,7 @@
 #include "ctrl_measure.h"
 #include "ctrl_output.h"
 #include "ctrl_rtc.h"
+#include "ctrl_timing.h"
 
 typedef enum {PLANT_IS_OFF=0, PLANT_IS_ON} plantIsOn_t;
 typedef enum {PLANT_STATE_OFF= 0, PLANT_STATE_STANDBY, PLANT_STATE_WATERING, PLANT_STATE_CHECKING, PLANT_STATE_WAITING} plantState_t;
@@ -36,6 +37,7 @@ typedef struct PLANT_T{
 	uint16_t pump_duration;					//specified pump running time
 	uint16_t pump_life;						//read from memory
 
+	uint8_t wateringIsDone;					//this flag when @1->we can enter checking cycle as watering has just finished, when @0->we can enter watering couse we heave already waited for moisture lvl to rise or its first watering that day
 	uint8_t watering_cycle_cnt;				//number of times pump was on this day
 	uint8_t watering_cycle_max;				//max number of watering cycles ofr this plant per day
 
@@ -43,6 +45,9 @@ typedef struct PLANT_T{
 
 
 	PWM_OUT_t Pwm_out;						//pump pwm output control structure
+	tims_t *Timing_watering;				//pointer to the timer to keep track of watering timeout
+	tims_t *Timing_checking;				//pointer to the timer to keep track of checking timeout after watering cycle
+	tims_t *Timing_life;					//pointer to the timer to keep track of pump life (set to be up @1s)
 }PLANT_t;
 
 extern PLANT_t PLANT1;
@@ -60,6 +65,8 @@ void plant_mode_STANDBY(PLANT_t *plant);
 void plant_mode_WATERING(PLANT_t *plant);
 void plant_mode_CHECKING(PLANT_t *plant);
 void plant_mode_WAITING(PLANT_t *plant);
+
+void plant_keep_track_of_life(PLANT_t *plant);
 
 
 
