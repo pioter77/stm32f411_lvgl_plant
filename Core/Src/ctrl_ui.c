@@ -6,11 +6,17 @@
  */
 #include "ctrl_ui.h"
 #include "debug.h"
+#include "ui.h"
+#include <stdio.h>
 
 UI_CTRL_t UI_CTRL={
 		.outConfigNo= OUT1_CONF
 };
 
+ lv_obj_t * ui_labelPmenuTwindow;
+ lv_obj_t * ui_labelPmenuOutThrshld;
+ lv_obj_t * ui_labelPmenuOutPower;
+ lv_obj_t * ui_labelPmenuOutTime;
 
 void cui_chart_init(void)
 {
@@ -40,8 +46,79 @@ void cui_chart_init(void)
     ser2->y_points[5] = 65;
     ser2->y_points[6] = 65;
     ser2->y_points[7] = 65;
-    ser2->y_points[8] = 65;
+    ser2->y_points[8] = 60;
     ser2->y_points[9] = 65;
+}
+
+/*
+ * add lables that show slider values in order to bypass generator 50 widgets limit
+ */
+void cui_add_labels_pumpSliders(void)
+{
+
+	//resize and reposition the slider on the left:
+    lv_obj_set_width(ui_OutputThrshldSlider, 130);
+    lv_obj_set_height(ui_OutputThrshldSlider, 21);
+    lv_obj_set_x(ui_OutputThrshldSlider, -65);
+    lv_obj_set_y(ui_OutputThrshldSlider, 55);
+
+	//create lable on the right of the slider:
+    lv_obj_t * ui_labelPmenuOutThrshld = lv_label_create(ui_Screen3);
+
+    lv_obj_set_width(ui_labelPmenuOutThrshld, LV_SIZE_CONTENT);
+    lv_obj_set_height(ui_labelPmenuOutThrshld, LV_SIZE_CONTENT);
+    lv_obj_set_x(ui_labelPmenuOutThrshld, -6);
+    lv_obj_set_y(ui_labelPmenuOutThrshld, 59);
+    lv_obj_set_align(ui_labelPmenuOutThrshld, LV_ALIGN_TOP_RIGHT);
+    lv_label_set_text(ui_labelPmenuOutThrshld, "100%");
+
+	//resize and reposition the slider on the left:
+    lv_obj_set_width(ui_TimeWindowSlider, 130);
+    lv_obj_set_height(ui_TimeWindowSlider, 21);
+    lv_obj_set_x(ui_TimeWindowSlider, -65);
+    lv_obj_set_y(ui_TimeWindowSlider, 100);
+
+	//create lable on the right of the slider:
+    lv_obj_t * ui_labelPmenuTwindow = lv_label_create(ui_Screen3);
+
+    lv_obj_set_width(ui_labelPmenuTwindow, LV_SIZE_CONTENT);
+    lv_obj_set_height(ui_labelPmenuTwindow, LV_SIZE_CONTENT);
+    lv_obj_set_x(ui_labelPmenuTwindow, -6);
+    lv_obj_set_y(ui_labelPmenuTwindow, 104);
+    lv_obj_set_align(ui_labelPmenuTwindow, LV_ALIGN_TOP_RIGHT);
+    lv_label_set_text(ui_labelPmenuTwindow, "12-24");
+
+	//resize and reposition the slider on the left:
+    lv_obj_set_width(ui_OutputPowerSlider, 130);
+    lv_obj_set_height(ui_OutputPowerSlider, 21);
+    lv_obj_set_x(ui_OutputPowerSlider, -65);
+    lv_obj_set_y(ui_OutputPowerSlider, 140);
+
+	//create lable on the right of the slider:
+    lv_obj_t * ui_labelPmenuOutPower = lv_label_create(ui_Screen3);
+
+    lv_obj_set_width(ui_labelPmenuOutPower, LV_SIZE_CONTENT);
+    lv_obj_set_height(ui_labelPmenuOutPower, LV_SIZE_CONTENT);
+    lv_obj_set_x(ui_labelPmenuOutPower, -6);
+    lv_obj_set_y(ui_labelPmenuOutPower, 144);
+    lv_obj_set_align(ui_labelPmenuOutPower, LV_ALIGN_TOP_RIGHT);
+    lv_label_set_text(ui_labelPmenuOutPower, "100%");
+
+	//resize and reposition the slider on the left:
+    lv_obj_set_width(ui_OutputTimeSlider, 130);
+    lv_obj_set_height(ui_OutputTimeSlider, 21);
+    lv_obj_set_x(ui_OutputTimeSlider, -65);
+    lv_obj_set_y(ui_OutputTimeSlider, 180);
+
+	//create lable on the right of the slider:
+    lv_obj_t * ui_labelPmenuOutTime = lv_label_create(ui_Screen3);
+
+    lv_obj_set_width(ui_labelPmenuOutTime, LV_SIZE_CONTENT);
+    lv_obj_set_height(ui_labelPmenuOutTime, LV_SIZE_CONTENT);
+    lv_obj_set_x(ui_labelPmenuOutTime, -6);
+    lv_obj_set_y(ui_labelPmenuOutTime, 184);
+    lv_obj_set_align(ui_labelPmenuOutTime, LV_ALIGN_TOP_RIGHT);
+    lv_label_set_text(ui_labelPmenuOutTime, "100%");
 }
 
 void cui_chart_update(void)
@@ -69,6 +146,7 @@ static void cui_events_assign(void)
 
 void cui_init(void)
 {
+	cui_add_labels_pumpSliders();
 	cui_events_assign();
 	cui_chart_init();
 	cui_chart_update();
@@ -133,7 +211,11 @@ void cui_OutputThrshld_changed(lv_event_t * event)
 #if DEBUG_DEVICE
 	printf("\n i entered output threshold event callback! ");
 #endif
-
+	char buff[8]="100%";	//buff to convert value into
+//	volatile int val = lv_slider_get_value(ui_OutputThrshldSlider);
+	sprintf(buff, "%.3d%%", (int)lv_slider_get_value(ui_OutputThrshldSlider));
+//	lv_label_set_text(ui_OutputLifeLabelVal, buff);
+	lv_label_set_text(ui_labelPmenuOutThrshld, buff);
 	if(UI_CTRL.outConfigNo == OUT1_CONF) PLANT1.moisture_threshold= lv_slider_get_value(ui_OutputThrshldSlider);
 	else if(UI_CTRL.outConfigNo == OUT2_CONF) PLANT2.moisture_threshold= lv_slider_get_value(ui_OutputThrshldSlider);
 }

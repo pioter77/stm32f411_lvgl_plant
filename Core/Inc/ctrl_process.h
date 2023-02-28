@@ -40,6 +40,7 @@ typedef struct PLANT_T{
 	uint8_t wateringIsDone;					//this flag when @1->we can enter checking cycle as watering has just finished, when @0->we can enter watering couse we heave already waited for moisture lvl to rise or its first watering that day
 	uint8_t watering_cycle_cnt;				//number of times pump was on this day
 	uint8_t watering_cycle_max;				//max number of watering cycles ofr this plant per day
+	uint8_t watering_cycle_day;				//date day number on which cycle count was last incremented, based on this resetting cycle no @00:00 each day is done
 
 	uint16_t moisture_level_raw;			//raw adc readout 0-4095
 
@@ -67,6 +68,7 @@ void plant_mode_CHECKING(PLANT_t *plant);
 void plant_mode_WAITING(PLANT_t *plant);
 
 void plant_keep_track_of_life(PLANT_t *plant);
+void plant_reset_watering_cycle_count(PLANT_t *plant);
 
 
 

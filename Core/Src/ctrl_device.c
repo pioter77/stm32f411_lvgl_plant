@@ -40,6 +40,7 @@ void ctrl_device(void)
 			ctrl_device_dateTime();
 			ctrl_device_humiUpdate();
 		  timingRestart(&TIMING.tims_1000ms1);
+
 	  }
 
 }

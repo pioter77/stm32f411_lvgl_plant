@@ -19,6 +19,7 @@ PLANT_t PLANT1= {
 	.watering_cycle_cnt=		0,
 	.watering_cycle_max=		3,
 	.pump_duration=				0,
+	.watering_cycle_day= 		0,
 	.Pwm_out={
 			.tim=				TIM1,
 			.tim_channel= 		LL_TIM_CHANNEL_CH1,
@@ -40,6 +41,7 @@ PLANT_t PLANT2= {
 	.watering_cycle_cnt=		0,
 	.watering_cycle_max=		3,
 	.pump_duration=				0,
+	.watering_cycle_day= 		0,
 	.Pwm_out={
 			.tim=				TIM1,
 			.tim_channel= 		LL_TIM_CHANNEL_CH2,
@@ -62,9 +64,8 @@ void ctrl_plant_init(PLANT_t *plant)
 
 void ctrl_plant_ctrl(PLANT_t *plant)
 {
+	plant_reset_watering_cycle_count(plant);
 
-	//watering cycles umber should be reseeted after day passed in function here or (automatically)
-//	or when plant is toggled on off (manuallly)
 	if(plant->isOn == PLANT_IS_OFF) plant->plantState= PLANT_STATE_OFF;
 	else if(plant->isOn == PLANT_IS_ON)
 	{
@@ -126,7 +127,11 @@ void plant_load_settings(PLANT_t *plant)
 void plant_switch_off(PLANT_t *plant)
 {
 	plant->isOn= PLANT_IS_OFF;
-	co_pwm_output_turn_on(&(plant->Pwm_out));
+	plant->wateringIsDone= 0;
+	plant->watering_cycle_cnt= 0;
+	co_pwm_output_turn_off(&(plant->Pwm_out));
+	if(timingIsOn(plant->Timing_checking))	timingStop(plant->Timing_checking);
+	if(timingIsOn(plant->Timing_watering))	timingStop(plant->Timing_watering);
 }
 
 void plant_switch_on(PLANT_t *plant)
@@ -142,6 +147,9 @@ void plant_mode_OFF(PLANT_t *plant)
 
 void plant_mode_STANDBY(PLANT_t *plant)
 {
+	if(timingIsOn(plant->Timing_checking))	timingStop(plant->Timing_checking);
+	if(timingIsOn(plant->Timing_watering))	timingStop(plant->Timing_watering);
+
 	co_pwm_set_power(&(plant->Pwm_out), 0);
 }
 
@@ -158,9 +166,9 @@ void plant_mode_WATERING(PLANT_t *plant)
 	if(timingIsUp(plant->Timing_watering))
 	{
 		plant->watering_cycle_cnt++;
+		plant->watering_cycle_day= RTC_CTRL.day_c;
 		co_pwm_set_power(&(plant->Pwm_out), 0);
 		timingStop(plant->Timing_watering);
-//		timingRestart(plant->Timing_watering);
 		plant->wateringIsDone= 1;			//so we can proceed to checking state
 	}
 
@@ -192,8 +200,22 @@ void plant_mode_WAITING(PLANT_t *plant)
 	co_pwm_set_power(&(plant->Pwm_out), 0);
 }
 
+/*
+ * when the pump is on increment every second of work to pump life variable in order to keep track of how many minutes pump was running
+ */
 void plant_keep_track_of_life(PLANT_t *plant)
 {
 
 }
 
+/*
+ * check if previous watering cycle increment day saved is different from current one, if so reset cycle count as new day started
+ */
+void plant_reset_watering_cycle_count(PLANT_t *plant)
+{
+	if(plant->watering_cycle_day != RTC_CTRL.day_c) {
+		plant->watering_cycle_cnt= 0;
+		plant->watering_cycle_day= RTC_CTRL.day_c;
+		plant->wateringIsDone= 0;
+	}
+}
