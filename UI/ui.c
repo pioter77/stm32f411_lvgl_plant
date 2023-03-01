@@ -1,6 +1,6 @@
 // SquareLine LVGL GENERATED FILE
-// EDITOR VERSION: SquareLine Studio 1.1.0
-// LVGL VERSION: 8.2
+// EDITOR VERSION: SquareLine Studio 1.2.0
+// LVGL VERSION: 8.2.0
 // PROJECT: lvgl_plant
 
 #include "ui.h"
@@ -17,10 +17,12 @@ void ui_event_Out1Arc(lv_event_t * e);
 lv_obj_t * ui_Out1Arc;
 lv_obj_t * ui_Screen1_Label2;
 lv_obj_t * ui_Out1Label;
+lv_obj_t * ui_Out1LabelState;
 void ui_event_Out2Arc(lv_event_t * e);
 lv_obj_t * ui_Out2Arc;
 lv_obj_t * ui_Screen1_Label1;
 lv_obj_t * ui_Out2Label;
+lv_obj_t * ui_Out2LabelState;
 lv_obj_t * ui_Screen1_Label4;
 lv_obj_t * ui_Out1Switch;
 lv_obj_t * ui_Out2Switch;
@@ -31,9 +33,13 @@ void ui_event_PrevScButton(lv_event_t * e);
 lv_obj_t * ui_PrevScButton;
 lv_obj_t * ui_PlotScreenInfoLabel;
 lv_obj_t * ui_PlotButton1;
+lv_obj_t * ui_LabelPlotButon1;
 lv_obj_t * ui_PlotButton2;
+lv_obj_t * ui_LabelPlotButon2;
 lv_obj_t * ui_PlotButton3;
+lv_obj_t * ui_LabelPlotButon3;
 lv_obj_t * ui_PlotLegendLabel;
+lv_obj_t * ui_LabelPlotLegend;
 void ui_event_SettingsButton(lv_event_t * e);
 lv_obj_t * ui_SettingsButton;
 lv_obj_t * ui_Screen3;
@@ -51,6 +57,10 @@ lv_obj_t * ui_OutputTimeSlider;
 lv_obj_t * ui_OutputTimeLabel;
 lv_obj_t * ui_OutputLifeLabel;
 lv_obj_t * ui_OutputLifeLabelVal;
+lv_obj_t * ui_LabelPmenuOutThrshld;
+lv_obj_t * ui_LabelPmenuTwindow;
+lv_obj_t * ui_LabelPmenuOutPower;
+lv_obj_t * ui_LabelPmenuOutTime;
 lv_obj_t * ui_Screen4;
 void ui_event_SettingsBackButton(lv_event_t * e);
 lv_obj_t * ui_SettingsBackButton;
@@ -69,6 +79,10 @@ lv_obj_t * ui_HourSetLabel;
 lv_obj_t * ui_MinsSetLabel;
 lv_obj_t * ui_TimeDateSaveButton;
 lv_obj_t * ui_TimeDateSaveBtnLabel;
+lv_obj_t * ui_ScreenBrigtSliderLblVal;
+lv_obj_t * ui_ScreenTimeSliderLblVal;
+lv_obj_t * ui_ScreenBrigtCheckbox;
+lv_obj_t * ui_ScreenTimeCheckbox;
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
@@ -239,6 +253,14 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_align(ui_Out1Label, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Out1Label, "39% / 17%");
 
+    ui_Out1LabelState = lv_label_create(ui_Out1Arc);
+    lv_obj_set_width(ui_Out1LabelState, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Out1LabelState, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Out1LabelState, 0);
+    lv_obj_set_y(ui_Out1LabelState, 20);
+    lv_obj_set_align(ui_Out1LabelState, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Out1LabelState, "STANDBY");
+
     ui_Out2Arc = lv_arc_create(ui_Screen1);
     lv_obj_set_width(ui_Out2Arc, 145);
     lv_obj_set_height(ui_Out2Arc, 145);
@@ -275,6 +297,14 @@ void ui_Screen1_screen_init(void)
     lv_obj_set_height(ui_Out2Label, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_Out2Label, LV_ALIGN_CENTER);
     lv_label_set_text(ui_Out2Label, "80% / 20%");
+
+    ui_Out2LabelState = lv_label_create(ui_Out2Arc);
+    lv_obj_set_width(ui_Out2LabelState, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_Out2LabelState, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_Out2LabelState, 0);
+    lv_obj_set_y(ui_Out2LabelState, 20);
+    lv_obj_set_align(ui_Out2LabelState, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_Out2LabelState, "STANDBY");
 
     ui_Screen1_Label4 = lv_label_create(ui_Screen1);
     lv_obj_set_width(ui_Screen1_Label4, LV_SIZE_CONTENT);   /// 1
@@ -321,10 +351,17 @@ void ui_Screen2_screen_init(void)
 
     ui_Chart1 = lv_chart_create(ui_Screen2);
     lv_obj_set_width(ui_Chart1, 320);
-    lv_obj_set_height(ui_Chart1, 145);
+    lv_obj_set_height(ui_Chart1, 116);
     lv_obj_set_x(ui_Chart1, 0);
-    lv_obj_set_y(ui_Chart1, -42);
+    lv_obj_set_y(ui_Chart1, -70);
     lv_obj_set_align(ui_Chart1, LV_ALIGN_BOTTOM_LEFT);
+    lv_chart_set_type(ui_Chart1, LV_CHART_TYPE_LINE);
+    lv_chart_set_axis_tick(ui_Chart1, LV_CHART_AXIS_PRIMARY_X, 10, 5, 5, 2, true, 50);
+    lv_chart_set_axis_tick(ui_Chart1, LV_CHART_AXIS_PRIMARY_Y, 10, 5, 5, 2, false, 50);
+    lv_chart_series_t * ui_Chart1_series_1 = lv_chart_add_series(ui_Chart1, lv_color_hex(0x808080),
+                                                                 LV_CHART_AXIS_PRIMARY_Y);
+    static lv_coord_t ui_Chart1_series_1_array[] = { 0, 10, 20, 40, 80, 80, 40, 20, 10, 0 };
+    lv_chart_set_ext_y_array(ui_Chart1, ui_Chart1_series_1, ui_Chart1_series_1_array);
     lv_obj_set_style_radius(ui_Chart1, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_PrevScButton = lv_btn_create(ui_Screen2);
@@ -360,6 +397,12 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_bg_color(ui_PlotButton1, lv_color_hex(0x52A48A), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_PlotButton1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_LabelPlotButon1 = lv_label_create(ui_PlotButton1);
+    lv_obj_set_width(ui_LabelPlotButon1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPlotButon1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_LabelPlotButon1, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelPlotButon1, "Btn1");
+
     ui_PlotButton2 = lv_btn_create(ui_Screen2);
     lv_obj_set_width(ui_PlotButton2, 60);
     lv_obj_set_height(ui_PlotButton2, 40);
@@ -371,6 +414,12 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_radius(ui_PlotButton2, 3, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_PlotButton2, lv_color_hex(0x52A48A), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_PlotButton2, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_LabelPlotButon2 = lv_label_create(ui_PlotButton2);
+    lv_obj_set_width(ui_LabelPlotButon2, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPlotButon2, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_LabelPlotButon2, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelPlotButon2, "Btn2");
 
     ui_PlotButton3 = lv_btn_create(ui_Screen2);
     lv_obj_set_width(ui_PlotButton3, 60);
@@ -384,12 +433,24 @@ void ui_Screen2_screen_init(void)
     lv_obj_set_style_bg_color(ui_PlotButton3, lv_color_hex(0x52A48A), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_PlotButton3, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_LabelPlotButon3 = lv_label_create(ui_PlotButton3);
+    lv_obj_set_width(ui_LabelPlotButon3, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPlotButon3, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_LabelPlotButon3, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelPlotButon3, "Btn3");
+
     ui_PlotLegendLabel = lv_label_create(ui_Screen2);
     lv_obj_set_width(ui_PlotLegendLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_PlotLegendLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_PlotLegendLabel, 102);
     lv_obj_set_y(ui_PlotLegendLabel, 100);
     lv_obj_set_align(ui_PlotLegendLabel, LV_ALIGN_CENTER);
+
+    ui_LabelPlotLegend = lv_label_create(ui_PlotLegendLabel);
+    lv_obj_set_width(ui_LabelPlotLegend, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPlotLegend, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_LabelPlotLegend, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_LabelPlotLegend, "Text\nText");
 
     ui_SettingsButton = lv_btn_create(ui_Screen2);
     lv_obj_set_width(ui_SettingsButton, 50);
@@ -455,9 +516,10 @@ void ui_Screen3_screen_init(void)
     lv_label_set_text(ui_ConfigScreenInfoLabel, "Plant X config");
 
     ui_OutputThrshldSlider = lv_slider_create(ui_Screen3);
-    lv_obj_set_width(ui_OutputThrshldSlider, 180);
+    lv_slider_set_range(ui_OutputThrshldSlider, 1, 100);
+    lv_obj_set_width(ui_OutputThrshldSlider, 130);
     lv_obj_set_height(ui_OutputThrshldSlider, 21);
-    lv_obj_set_x(ui_OutputThrshldSlider, -19);
+    lv_obj_set_x(ui_OutputThrshldSlider, -69);
     lv_obj_set_y(ui_OutputThrshldSlider, 55);
     lv_obj_set_align(ui_OutputThrshldSlider, LV_ALIGN_TOP_RIGHT);
 
@@ -470,9 +532,9 @@ void ui_Screen3_screen_init(void)
     lv_slider_set_value(ui_TimeWindowSlider, 23, LV_ANIM_OFF);
     if(lv_slider_get_mode(ui_TimeWindowSlider) == LV_SLIDER_MODE_RANGE) lv_slider_set_left_value(ui_TimeWindowSlider, 6,
                                                                                                      LV_ANIM_OFF);
-    lv_obj_set_width(ui_TimeWindowSlider, 180);
+    lv_obj_set_width(ui_TimeWindowSlider, 130);
     lv_obj_set_height(ui_TimeWindowSlider, 21);
-    lv_obj_set_x(ui_TimeWindowSlider, -19);
+    lv_obj_set_x(ui_TimeWindowSlider, -69);
     lv_obj_set_y(ui_TimeWindowSlider, 100);
     lv_obj_set_align(ui_TimeWindowSlider, LV_ALIGN_TOP_RIGHT);
 
@@ -487,9 +549,10 @@ void ui_Screen3_screen_init(void)
     lv_label_set_text(ui_OutputPowerLabel, "Pump power");
 
     ui_OutputPowerSlider = lv_slider_create(ui_Screen3);
-    lv_obj_set_width(ui_OutputPowerSlider, 180);
+    lv_slider_set_range(ui_OutputPowerSlider, 70, 100);
+    lv_obj_set_width(ui_OutputPowerSlider, 130);
     lv_obj_set_height(ui_OutputPowerSlider, 21);
-    lv_obj_set_x(ui_OutputPowerSlider, -19);
+    lv_obj_set_x(ui_OutputPowerSlider, -69);
     lv_obj_set_y(ui_OutputPowerSlider, 140);
     lv_obj_set_align(ui_OutputPowerSlider, LV_ALIGN_TOP_RIGHT);
 
@@ -497,9 +560,10 @@ void ui_Screen3_screen_init(void)
     lv_obj_set_style_bg_opa(ui_OutputPowerSlider, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
 
     ui_OutputTimeSlider = lv_slider_create(ui_Screen3);
-    lv_obj_set_width(ui_OutputTimeSlider, 180);
+    lv_slider_set_range(ui_OutputTimeSlider, 1, 50);
+    lv_obj_set_width(ui_OutputTimeSlider, 130);
     lv_obj_set_height(ui_OutputTimeSlider, 21);
-    lv_obj_set_x(ui_OutputTimeSlider, -19);
+    lv_obj_set_x(ui_OutputTimeSlider, -69);
     lv_obj_set_y(ui_OutputTimeSlider, 180);
     lv_obj_set_align(ui_OutputTimeSlider, LV_ALIGN_TOP_RIGHT);
 
@@ -527,6 +591,38 @@ void ui_Screen3_screen_init(void)
     lv_obj_set_y(ui_OutputLifeLabelVal, 0);
     lv_obj_set_align(ui_OutputLifeLabelVal, LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_OutputLifeLabelVal, "15 min ");
+
+    ui_LabelPmenuOutThrshld = lv_label_create(ui_Screen3);
+    lv_obj_set_width(ui_LabelPmenuOutThrshld, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPmenuOutThrshld, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelPmenuOutThrshld, -6);
+    lv_obj_set_y(ui_LabelPmenuOutThrshld, 59);
+    lv_obj_set_align(ui_LabelPmenuOutThrshld, LV_ALIGN_TOP_RIGHT);
+    lv_label_set_text(ui_LabelPmenuOutThrshld, "100%");
+
+    ui_LabelPmenuTwindow = lv_label_create(ui_Screen3);
+    lv_obj_set_width(ui_LabelPmenuTwindow, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPmenuTwindow, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelPmenuTwindow, -6);
+    lv_obj_set_y(ui_LabelPmenuTwindow, 104);
+    lv_obj_set_align(ui_LabelPmenuTwindow, LV_ALIGN_TOP_RIGHT);
+    lv_label_set_text(ui_LabelPmenuTwindow, "10-24");
+
+    ui_LabelPmenuOutPower = lv_label_create(ui_Screen3);
+    lv_obj_set_width(ui_LabelPmenuOutPower, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPmenuOutPower, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelPmenuOutPower, -6);
+    lv_obj_set_y(ui_LabelPmenuOutPower, 144);
+    lv_obj_set_align(ui_LabelPmenuOutPower, LV_ALIGN_TOP_RIGHT);
+    lv_label_set_text(ui_LabelPmenuOutPower, "100%");
+
+    ui_LabelPmenuOutTime = lv_label_create(ui_Screen3);
+    lv_obj_set_width(ui_LabelPmenuOutTime, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_LabelPmenuOutTime, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_LabelPmenuOutTime, -6);
+    lv_obj_set_y(ui_LabelPmenuOutTime, 184);
+    lv_obj_set_align(ui_LabelPmenuOutTime, LV_ALIGN_TOP_RIGHT);
+    lv_label_set_text(ui_LabelPmenuOutTime, "10s");
 
     lv_obj_add_event_cb(ui_ConfigBackButton, ui_event_ConfigBackButton, LV_EVENT_ALL, NULL);
 
@@ -578,19 +674,19 @@ void ui_Screen4_screen_init(void)
     ui_ScreenBrigtLabel = lv_label_create(ui_Screen4);
     lv_obj_set_width(ui_ScreenBrigtLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_ScreenBrigtLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_ScreenBrigtLabel, -113);
+    lv_obj_set_x(ui_ScreenBrigtLabel, -127);
     lv_obj_set_y(ui_ScreenBrigtLabel, 48);
     lv_obj_set_align(ui_ScreenBrigtLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_ScreenBrigtLabel, "Screen\nBrightness");
+    lv_label_set_text(ui_ScreenBrigtLabel, "Screen\nBrightn.");
 
     ui_ScreenBrigtSlider = lv_slider_create(ui_Screen4);
     lv_slider_set_range(ui_ScreenBrigtSlider, 5, 100);
-    lv_slider_set_value(ui_ScreenBrigtSlider, 50, LV_ANIM_OFF);
+    lv_slider_set_value(ui_ScreenBrigtSlider, 70, LV_ANIM_OFF);
     if(lv_slider_get_mode(ui_ScreenBrigtSlider) == LV_SLIDER_MODE_RANGE) lv_slider_set_left_value(ui_ScreenBrigtSlider, 0,
                                                                                                       LV_ANIM_OFF);
-    lv_obj_set_width(ui_ScreenBrigtSlider, 180);
+    lv_obj_set_width(ui_ScreenBrigtSlider, 110);
     lv_obj_set_height(ui_ScreenBrigtSlider, 21);
-    lv_obj_set_x(ui_ScreenBrigtSlider, 55);
+    lv_obj_set_x(ui_ScreenBrigtSlider, -15);
     lv_obj_set_y(ui_ScreenBrigtSlider, 52);
     lv_obj_set_align(ui_ScreenBrigtSlider, LV_ALIGN_CENTER);
 
@@ -607,9 +703,9 @@ void ui_Screen4_screen_init(void)
 
     ui_ScreenTimeSlider = lv_slider_create(ui_Screen4);
     lv_slider_set_range(ui_ScreenTimeSlider, 30, 300);
-    lv_obj_set_width(ui_ScreenTimeSlider, 180);
+    lv_obj_set_width(ui_ScreenTimeSlider, 110);
     lv_obj_set_height(ui_ScreenTimeSlider, 21);
-    lv_obj_set_x(ui_ScreenTimeSlider, 55);
+    lv_obj_set_x(ui_ScreenTimeSlider, -15);
     lv_obj_set_y(ui_ScreenTimeSlider, 96);
     lv_obj_set_align(ui_ScreenTimeSlider, LV_ALIGN_CENTER);
 
@@ -679,6 +775,40 @@ void ui_Screen4_screen_init(void)
     lv_obj_set_height(ui_TimeDateSaveBtnLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_TimeDateSaveBtnLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_TimeDateSaveBtnLabel, " Save\nClock");
+
+    ui_ScreenBrigtSliderLblVal = lv_label_create(ui_Screen4);
+    lv_obj_set_width(ui_ScreenBrigtSliderLblVal, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_ScreenBrigtSliderLblVal, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_ScreenBrigtSliderLblVal, 140);
+    lv_obj_set_y(ui_ScreenBrigtSliderLblVal, 53);
+    lv_obj_set_align(ui_ScreenBrigtSliderLblVal, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_ScreenBrigtSliderLblVal, "100%");
+
+    ui_ScreenTimeSliderLblVal = lv_label_create(ui_Screen4);
+    lv_obj_set_width(ui_ScreenTimeSliderLblVal, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_ScreenTimeSliderLblVal, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_ScreenTimeSliderLblVal, 145);
+    lv_obj_set_y(ui_ScreenTimeSliderLblVal, 97);
+    lv_obj_set_align(ui_ScreenTimeSliderLblVal, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_ScreenTimeSliderLblVal, "30s");
+
+    ui_ScreenBrigtCheckbox = lv_checkbox_create(ui_Screen4);
+    lv_checkbox_set_text(ui_ScreenBrigtCheckbox, "Aut");
+    lv_obj_set_width(ui_ScreenBrigtCheckbox, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_ScreenBrigtCheckbox, LV_SIZE_CONTENT);    /// 2
+    lv_obj_set_x(ui_ScreenBrigtCheckbox, 92);
+    lv_obj_set_y(ui_ScreenBrigtCheckbox, 52);
+    lv_obj_set_align(ui_ScreenBrigtCheckbox, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_ScreenBrigtCheckbox, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+
+    ui_ScreenTimeCheckbox = lv_checkbox_create(ui_Screen4);
+    lv_checkbox_set_text(ui_ScreenTimeCheckbox, "Inf");
+    lv_obj_set_width(ui_ScreenTimeCheckbox, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_ScreenTimeCheckbox, LV_SIZE_CONTENT);    /// 2
+    lv_obj_set_x(ui_ScreenTimeCheckbox, 89);
+    lv_obj_set_y(ui_ScreenTimeCheckbox, 97);
+    lv_obj_set_align(ui_ScreenTimeCheckbox, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_ScreenTimeCheckbox, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
 
     lv_obj_add_event_cb(ui_SettingsBackButton, ui_event_SettingsBackButton, LV_EVENT_ALL, NULL);
 

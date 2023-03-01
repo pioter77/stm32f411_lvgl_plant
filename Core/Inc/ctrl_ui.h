@@ -27,10 +27,7 @@ typedef struct UI_CTRL_T{
 
 extern UI_CTRL_t UI_CTRL;
 
-extern lv_obj_t * ui_labelPmenuTwindow;
-extern lv_obj_t * ui_labelPmenuOutThrshld;
-extern lv_obj_t * ui_labelPmenuOutPower;
-extern lv_obj_t * ui_labelPmenuOutTime;
+
 
 void cui_chart_init(void);
 void cui_chart_update(void);

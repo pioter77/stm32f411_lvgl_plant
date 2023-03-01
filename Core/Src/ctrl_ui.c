@@ -13,10 +13,7 @@ UI_CTRL_t UI_CTRL={
 		.outConfigNo= OUT1_CONF
 };
 
- lv_obj_t * ui_labelPmenuTwindow;
- lv_obj_t * ui_labelPmenuOutThrshld;
- lv_obj_t * ui_labelPmenuOutPower;
- lv_obj_t * ui_labelPmenuOutTime;
+
 
 void cui_chart_init(void)
 {
@@ -56,69 +53,69 @@ void cui_chart_init(void)
 void cui_add_labels_pumpSliders(void)
 {
 
-	//resize and reposition the slider on the left:
-    lv_obj_set_width(ui_OutputThrshldSlider, 130);
-    lv_obj_set_height(ui_OutputThrshldSlider, 21);
-    lv_obj_set_x(ui_OutputThrshldSlider, -65);
-    lv_obj_set_y(ui_OutputThrshldSlider, 55);
-
-	//create lable on the right of the slider:
-    lv_obj_t * ui_labelPmenuOutThrshld = lv_label_create(ui_Screen3);
-
-    lv_obj_set_width(ui_labelPmenuOutThrshld, LV_SIZE_CONTENT);
-    lv_obj_set_height(ui_labelPmenuOutThrshld, LV_SIZE_CONTENT);
-    lv_obj_set_x(ui_labelPmenuOutThrshld, -6);
-    lv_obj_set_y(ui_labelPmenuOutThrshld, 59);
-    lv_obj_set_align(ui_labelPmenuOutThrshld, LV_ALIGN_TOP_RIGHT);
-    lv_label_set_text(ui_labelPmenuOutThrshld, "100%");
-
-	//resize and reposition the slider on the left:
-    lv_obj_set_width(ui_TimeWindowSlider, 130);
-    lv_obj_set_height(ui_TimeWindowSlider, 21);
-    lv_obj_set_x(ui_TimeWindowSlider, -65);
-    lv_obj_set_y(ui_TimeWindowSlider, 100);
-
-	//create lable on the right of the slider:
-    lv_obj_t * ui_labelPmenuTwindow = lv_label_create(ui_Screen3);
-
-    lv_obj_set_width(ui_labelPmenuTwindow, LV_SIZE_CONTENT);
-    lv_obj_set_height(ui_labelPmenuTwindow, LV_SIZE_CONTENT);
-    lv_obj_set_x(ui_labelPmenuTwindow, -6);
-    lv_obj_set_y(ui_labelPmenuTwindow, 104);
-    lv_obj_set_align(ui_labelPmenuTwindow, LV_ALIGN_TOP_RIGHT);
-    lv_label_set_text(ui_labelPmenuTwindow, "12-24");
-
-	//resize and reposition the slider on the left:
-    lv_obj_set_width(ui_OutputPowerSlider, 130);
-    lv_obj_set_height(ui_OutputPowerSlider, 21);
-    lv_obj_set_x(ui_OutputPowerSlider, -65);
-    lv_obj_set_y(ui_OutputPowerSlider, 140);
-
-	//create lable on the right of the slider:
-    lv_obj_t * ui_labelPmenuOutPower = lv_label_create(ui_Screen3);
-
-    lv_obj_set_width(ui_labelPmenuOutPower, LV_SIZE_CONTENT);
-    lv_obj_set_height(ui_labelPmenuOutPower, LV_SIZE_CONTENT);
-    lv_obj_set_x(ui_labelPmenuOutPower, -6);
-    lv_obj_set_y(ui_labelPmenuOutPower, 144);
-    lv_obj_set_align(ui_labelPmenuOutPower, LV_ALIGN_TOP_RIGHT);
-    lv_label_set_text(ui_labelPmenuOutPower, "100%");
-
-	//resize and reposition the slider on the left:
-    lv_obj_set_width(ui_OutputTimeSlider, 130);
-    lv_obj_set_height(ui_OutputTimeSlider, 21);
-    lv_obj_set_x(ui_OutputTimeSlider, -65);
-    lv_obj_set_y(ui_OutputTimeSlider, 180);
-
-	//create lable on the right of the slider:
-    lv_obj_t * ui_labelPmenuOutTime = lv_label_create(ui_Screen3);
-
-    lv_obj_set_width(ui_labelPmenuOutTime, LV_SIZE_CONTENT);
-    lv_obj_set_height(ui_labelPmenuOutTime, LV_SIZE_CONTENT);
-    lv_obj_set_x(ui_labelPmenuOutTime, -6);
-    lv_obj_set_y(ui_labelPmenuOutTime, 184);
-    lv_obj_set_align(ui_labelPmenuOutTime, LV_ALIGN_TOP_RIGHT);
-    lv_label_set_text(ui_labelPmenuOutTime, "100%");
+//	//resize and reposition the slider on the left:
+//    lv_obj_set_width(ui_OutputThrshldSlider, 130);
+//    lv_obj_set_height(ui_OutputThrshldSlider, 21);
+//    lv_obj_set_x(ui_OutputThrshldSlider, -65);
+//    lv_obj_set_y(ui_OutputThrshldSlider, 55);
+//
+//	//create lable on the right of the slider:
+//    lv_obj_t * ui_labelPmenuOutThrshld = lv_label_create(ui_Screen3);
+//
+//    lv_obj_set_width(ui_labelPmenuOutThrshld, LV_SIZE_CONTENT);
+//    lv_obj_set_height(ui_labelPmenuOutThrshld, LV_SIZE_CONTENT);
+//    lv_obj_set_x(ui_labelPmenuOutThrshld, -6);
+//    lv_obj_set_y(ui_labelPmenuOutThrshld, 59);
+//    lv_obj_set_align(ui_labelPmenuOutThrshld, LV_ALIGN_TOP_RIGHT);
+//    lv_label_set_text(ui_labelPmenuOutThrshld, "100%");
+//
+//	//resize and reposition the slider on the left:
+//    lv_obj_set_width(ui_TimeWindowSlider, 130);
+//    lv_obj_set_height(ui_TimeWindowSlider, 21);
+//    lv_obj_set_x(ui_TimeWindowSlider, -65);
+//    lv_obj_set_y(ui_TimeWindowSlider, 100);
+//
+//	//create lable on the right of the slider:
+//    lv_obj_t * ui_labelPmenuTwindow = lv_label_create(ui_Screen3);
+//
+//    lv_obj_set_width(ui_labelPmenuTwindow, LV_SIZE_CONTENT);
+//    lv_obj_set_height(ui_labelPmenuTwindow, LV_SIZE_CONTENT);
+//    lv_obj_set_x(ui_labelPmenuTwindow, -6);
+//    lv_obj_set_y(ui_labelPmenuTwindow, 104);
+//    lv_obj_set_align(ui_labelPmenuTwindow, LV_ALIGN_TOP_RIGHT);
+//    lv_label_set_text(ui_labelPmenuTwindow, "12-24");
+//
+//	//resize and reposition the slider on the left:
+//    lv_obj_set_width(ui_OutputPowerSlider, 130);
+//    lv_obj_set_height(ui_OutputPowerSlider, 21);
+//    lv_obj_set_x(ui_OutputPowerSlider, -65);
+//    lv_obj_set_y(ui_OutputPowerSlider, 140);
+//
+//	//create lable on the right of the slider:
+//    lv_obj_t * ui_labelPmenuOutPower = lv_label_create(ui_Screen3);
+//
+//    lv_obj_set_width(ui_labelPmenuOutPower, LV_SIZE_CONTENT);
+//    lv_obj_set_height(ui_labelPmenuOutPower, LV_SIZE_CONTENT);
+//    lv_obj_set_x(ui_labelPmenuOutPower, -6);
+//    lv_obj_set_y(ui_labelPmenuOutPower, 144);
+//    lv_obj_set_align(ui_labelPmenuOutPower, LV_ALIGN_TOP_RIGHT);
+//    lv_label_set_text(ui_labelPmenuOutPower, "100%");
+//
+//	//resize and reposition the slider on the left:
+//    lv_obj_set_width(ui_OutputTimeSlider, 130);
+//    lv_obj_set_height(ui_OutputTimeSlider, 21);
+//    lv_obj_set_x(ui_OutputTimeSlider, -65);
+//    lv_obj_set_y(ui_OutputTimeSlider, 180);
+//
+//	//create lable on the right of the slider:
+//    lv_obj_t * ui_labelPmenuOutTime = lv_label_create(ui_Screen3);
+//
+//    lv_obj_set_width(ui_labelPmenuOutTime, LV_SIZE_CONTENT);
+//    lv_obj_set_height(ui_labelPmenuOutTime, LV_SIZE_CONTENT);
+//    lv_obj_set_x(ui_labelPmenuOutTime, -6);
+//    lv_obj_set_y(ui_labelPmenuOutTime, 184);
+//    lv_obj_set_align(ui_labelPmenuOutTime, LV_ALIGN_TOP_RIGHT);
+//    lv_label_set_text(ui_labelPmenuOutTime, "100%");
 }
 
 void cui_chart_update(void)
@@ -146,7 +143,7 @@ static void cui_events_assign(void)
 
 void cui_init(void)
 {
-	cui_add_labels_pumpSliders();
+//	cui_add_labels_pumpSliders();
 	cui_events_assign();
 	cui_chart_init();
 	cui_chart_update();
@@ -212,16 +209,17 @@ void cui_OutputThrshld_changed(lv_event_t * event)
 	printf("\n i entered output threshold event callback! ");
 #endif
 	char buff[8]="100%";	//buff to convert value into
-//	volatile int val = lv_slider_get_value(ui_OutputThrshldSlider);
 	sprintf(buff, "%.3d%%", (int)lv_slider_get_value(ui_OutputThrshldSlider));
-//	lv_label_set_text(ui_OutputLifeLabelVal, buff);
-	lv_label_set_text(ui_labelPmenuOutThrshld, buff);
+	lv_label_set_text(ui_LabelPmenuOutThrshld, buff);
 	if(UI_CTRL.outConfigNo == OUT1_CONF) PLANT1.moisture_threshold= lv_slider_get_value(ui_OutputThrshldSlider);
 	else if(UI_CTRL.outConfigNo == OUT2_CONF) PLANT2.moisture_threshold= lv_slider_get_value(ui_OutputThrshldSlider);
 }
 
 void cui_OutTimeWindow_changed(lv_event_t * event)
 {
+	char buff[8]="10-24";	//buff to convert value into
+	sprintf(buff, "%.2d-%.2d", (int)lv_slider_get_left_value(ui_TimeWindowSlider), (int)lv_slider_get_value(ui_TimeWindowSlider));
+	lv_label_set_text(ui_LabelPmenuTwindow, buff);
 	if(UI_CTRL.outConfigNo == OUT1_CONF) {
 		PLANT1.time_window_start= lv_slider_get_left_value(ui_TimeWindowSlider);
 		PLANT1.time_window_end=   lv_slider_get_value(ui_TimeWindowSlider);
@@ -234,12 +232,18 @@ void cui_OutTimeWindow_changed(lv_event_t * event)
 
 void cui_PumpPower_changed(lv_event_t * event)
 {
+	char buff[8]="100%";	//buff to convert value into
+	sprintf(buff, "%.3d%%", (int)lv_slider_get_value(ui_OutputPowerSlider));
+	lv_label_set_text(ui_LabelPmenuOutPower, buff);
 	if(UI_CTRL.outConfigNo == OUT1_CONF) PLANT1.pump_power= lv_slider_get_value(ui_OutputPowerSlider);
 	else if(UI_CTRL.outConfigNo == OUT2_CONF) PLANT2.pump_power= lv_slider_get_value(ui_OutputPowerSlider);
 }
 
 void cui_PumpTime_changed(lv_event_t * event)
 {
+	char buff[8]="10s";	//buff to convert value into
+	sprintf(buff, "%.3ds", (int)lv_slider_get_value(ui_OutputTimeSlider));
+	lv_label_set_text(ui_LabelPmenuOutTime, buff);
 	if(UI_CTRL.outConfigNo == OUT1_CONF) PLANT1.pump_duration= lv_slider_get_value(ui_OutputTimeSlider);
 	else if(UI_CTRL.outConfigNo == OUT2_CONF) PLANT2.pump_duration= lv_slider_get_value(ui_OutputTimeSlider);
 }
