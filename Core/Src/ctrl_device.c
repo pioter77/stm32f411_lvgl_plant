@@ -37,9 +37,9 @@ void ctrl_device(void)
 	  if(timingIsUp(&TIMING.tims_1000ms1))
 	  {
 		 // LL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
-			ctrl_device_dateTime();
-			ctrl_device_humiUpdate();
-		  timingRestart(&TIMING.tims_1000ms1);
+		ctrl_device_dateTime();
+		ctrl_device_humiUpdate();
+		timingRestart(&TIMING.tims_1000ms1);
 
 	  }
 
@@ -47,12 +47,20 @@ void ctrl_device(void)
 
 
 
-void ctrl_device_lcdbrightness(void)
+void ctrl_device_ui_lcdbrightness(void)
 {
 	if(LCD_PWM.fill != (uint16_t)(lv_slider_get_value(ui_ScreenBrigtSlider)))
 	{
 		lcd_pwm_set_fill(&LCD_PWM, (uint16_t)(lv_slider_get_value(ui_ScreenBrigtSlider)));
 	}
+}
+
+void ctrl_device_ui_lcdtime(void)
+{
+//	if(LCD_PWM.fill != (uint16_t)(lv_slider_get_value(ui_ScreenBrigtSlider)))
+//	{
+//		lcd_pwm_set_fill(&LCD_PWM, (uint16_t)(lv_slider_get_value(ui_ScreenBrigtSlider)));
+//	}
 }
 
 void ctrl_device_dateTime(void)

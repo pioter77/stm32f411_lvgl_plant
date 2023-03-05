@@ -138,6 +138,7 @@ static void cui_events_assign(void)
 	lv_obj_add_event_cb(ui_ScreenTimeSlider, 	cui_ScreenTime_changed, 		LV_EVENT_VALUE_CHANGED, 	NULL);
 	lv_obj_add_event_cb(ui_ScreenBrigtSlider, 	cui_ScreenBrightness_changed, 	LV_EVENT_VALUE_CHANGED, 	NULL);
 	lv_obj_add_event_cb(ui_TimeDateSaveButton, 	cui_SaveClockDate_clicked, 		LV_EVENT_RELEASED, 			NULL);
+	lv_obj_add_event_cb(ui_SettingsButton, 		cui_SettingsButton_clicked, 	LV_EVENT_RELEASED, 			NULL);
 
 }
 
@@ -164,6 +165,19 @@ void cui_Out1_clicked(lv_event_t * event)
 	char buff[]="00000 min";
 	sprintf((char *)buff, "%.5d min", PLANT1.pump_life);
 	lv_label_set_text(ui_OutputLifeLabelVal, buff);
+
+	sprintf(buff, "%.3d%%", (int)lv_slider_get_value(ui_OutputThrshldSlider));
+	lv_label_set_text(ui_LabelPmenuOutThrshld, buff);
+
+	sprintf(buff, "%.2d-%.2d", (int)lv_slider_get_left_value(ui_TimeWindowSlider), (int)lv_slider_get_value(ui_TimeWindowSlider));
+	lv_label_set_text(ui_LabelPmenuTwindow, buff);
+
+
+	sprintf(buff, "%.3d%%", (int)lv_slider_get_value(ui_OutputPowerSlider));
+	lv_label_set_text(ui_LabelPmenuOutPower, buff);
+
+	sprintf(buff, "%.3ds", (int)lv_slider_get_value(ui_OutputTimeSlider));
+	lv_label_set_text(ui_LabelPmenuOutTime, buff);
 }
 
 void cui_Out2_clicked(lv_event_t * event)
@@ -178,9 +192,23 @@ void cui_Out2_clicked(lv_event_t * event)
 	lv_slider_set_value(ui_TimeWindowSlider, 		PLANT2.time_window_end, 		LV_ANIM_OFF);
 	lv_slider_set_value(ui_OutputPowerSlider, 		PLANT2.pump_power, 				LV_ANIM_OFF);
 	lv_slider_set_value(ui_OutputTimeSlider, 		PLANT2.pump_duration, 			LV_ANIM_OFF);
+
 	char buff[]="00000 min";
 	sprintf((char *)buff, "%.5d min", PLANT2.pump_life);
 	lv_label_set_text(ui_OutputLifeLabelVal, buff);
+
+	sprintf(buff, "%.3d%%", (int)lv_slider_get_value(ui_OutputThrshldSlider));
+	lv_label_set_text(ui_LabelPmenuOutThrshld, buff);
+
+	sprintf(buff, "%.2d-%.2d", (int)lv_slider_get_left_value(ui_TimeWindowSlider), (int)lv_slider_get_value(ui_TimeWindowSlider));
+	lv_label_set_text(ui_LabelPmenuTwindow, buff);
+
+
+	sprintf(buff, "%.3d%%", (int)lv_slider_get_value(ui_OutputPowerSlider));
+	lv_label_set_text(ui_LabelPmenuOutPower, buff);
+
+	sprintf(buff, "%.3ds", (int)lv_slider_get_value(ui_OutputTimeSlider));
+	lv_label_set_text(ui_LabelPmenuOutTime, buff);
 }
 
 void cui_Out1Switch_toggled(lv_event_t * event)
@@ -252,11 +280,20 @@ void cui_ScreenTime_changed(lv_event_t * event)
 {
 //	if(UI_CTRL.outConfigNo == OUT1_CONF) D= lv_slider_get_value(ui_ScreenTimeSlider);
 //	else if(UI_CTRL.outConfigNo == OUT2_CONF) PLANT2.pump_power= lv_slider_get_value(ui_ScreenTimeSlider);
+	ctrl_device_ui_lcdtime();
+
+	char buff[]="300s";
+	sprintf(buff, "%.3ds", (int)lv_slider_get_value(ui_ScreenTimeSlider));
+	lv_label_set_text(ui_ScreenTimeSliderLblVal, buff);
 }
 
 void cui_ScreenBrightness_changed(lv_event_t * event)
 {
-	ctrl_device_lcdbrightness();
+	ctrl_device_ui_lcdbrightness();
+
+	char buff[]="300s";
+	sprintf(buff, "%.3d%%", (int)lv_slider_get_value(ui_ScreenBrigtSlider));
+	lv_label_set_text(ui_ScreenBrigtSliderLblVal, buff);
 }
 
 void cui_SaveClockDate_clicked(lv_event_t * event)
@@ -280,5 +317,16 @@ void cui_SaveClockDate_clicked(lv_event_t * event)
 
 	rtc_allow_set();
 	rtc_set();
+}
+
+void cui_SettingsButton_clicked(lv_event_t * event)
+{
+	char buff[]="300s";
+	sprintf(buff, "%.3d%%", (int)lv_slider_get_value(ui_ScreenBrigtSlider));
+	lv_label_set_text(ui_ScreenBrigtSliderLblVal, buff);
+
+	sprintf(buff, "%.3ds", (int)lv_slider_get_value(ui_ScreenTimeSlider));
+	lv_label_set_text(ui_ScreenTimeSliderLblVal, buff);
+
 }
 //*************************************************************************************************************
