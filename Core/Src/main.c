@@ -232,7 +232,7 @@ int main(void)
 	  }
 	  XPT2046_Task();
 
-//	  ctrl_htu21d(&HTU21D);
+
 
     /* USER CODE END WHILE */
 

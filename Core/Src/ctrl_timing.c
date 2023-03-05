@@ -87,6 +87,9 @@ void co_timing_ISR(timing_t *ctrl_t)
 		timingCount(&ctrl_t->tims_plant1Water);
 		timingCount(&ctrl_t->tims_plant2Water);
 
+		//htu21d timing:
+		timingCount(&ctrl_t->tims_htu21d);
+
 
 	}
 }

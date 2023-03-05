@@ -12,6 +12,7 @@
 #include "main.h"
 #include "i2c.h"
 
+#include "ctrl_timing.h"
 
 #define HTU21D_DEV_ADR_READ    						(uint8_t)0x81
 #define HTU21D_DEV_ADR_WRITE    					(uint8_t)0x80
@@ -30,7 +31,7 @@ typedef enum {	htu21d_state_NOT_INITIALIZED= 0,
 
 				htu21d_state_LOOP_START,
 				htu21d_state_READING_HUMIDITY,
-				htu21d_state_HUMIDIDY_OK,
+				htu21d_state_HUMIDITY_OK,
 				htu21d_state_READING_TEMPERATURE,
 				htu21d_state_TEMPERATURE_OK,
 				htu21d_state_LOOP_END} htu21d_state_t;
@@ -47,20 +48,28 @@ typedef struct HTU21D_T{
 	uint16_t HTU21D_ADC_Raw_humi;
 	float HTU21_temperature;			//calculated values and filtered
 	float HTU21_humidity;				//calculated values and filtered
+
+	int8_t 	HTU21_temp_cut;			//no fractional part, filtered, in XX*c
+	uint8_t HTU21_humi_cut;			//no fractional part, filtered, in XX%
+
 	uint8_t HTU21D_Temp_Cmd;		//write to those registers starts tmep/humi conversions
 	uint8_t HTU21D_Humi_Cmd;
 
 	uint8_t HTU21D_Temp_Adr;		//read from this registers returns valeues from sensor
 	uint8_t HTU21D_Humi_Adr;
+
+	tims_t *Timing_htu21d;			//time counting structure pointer for htu
 }HTU21D_t;
 
 extern HTU21D_t HTU21D;
 
 
-void htu21d_init(HTU21D_t *htu);
-void htu21d_readHumi(HTU21D_t *htu);
-void htu21d_readTemp(HTU21D_t *htu);
+//void htu21d_init(HTU21D_t *htu);
+//void htu21d_readHumi(HTU21D_t *htu);
+//void htu21d_readTemp(HTU21D_t *htu);
 
 
 void ctrl_htu21d(HTU21D_t *htu);
+
+//static void htu21_state_control(HTU21D_t *htu, htu21d_state_t nextState);
 #endif /* INC_CTRL_HTU21D_H_ */

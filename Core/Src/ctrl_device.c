@@ -37,12 +37,12 @@ void ctrl_device(void)
 	  if(timingIsUp(&TIMING.tims_1000ms1))
 	  {
 		 // LL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
-		ctrl_device_dateTime();
+		ctrl_device_dateTimeTempHumiUpdate();
 		ctrl_device_humiUpdate();
 		timingRestart(&TIMING.tims_1000ms1);
 
 	  }
-
+	  ctrl_htu21d(&HTU21D);
 }
 
 
@@ -63,11 +63,11 @@ void ctrl_device_ui_lcdtime(void)
 //	}
 }
 
-void ctrl_device_dateTime(void)
+void ctrl_device_dateTimeTempHumiUpdate(void)
 {
 	rtc_update();
-	char buff[34] = "hh:mm:ss  dd:mm:yy 24*C 48%";
-	sprintf((char *)buff, "%.2d:%.2d:%.2d  %.2d.%.2d.%.2d 24*C 47%%", RTC_CTRL.hour_c, RTC_CTRL.minutes_c, RTC_CTRL.seconds_c, RTC_CTRL.day_c, RTC_CTRL.month_c, RTC_CTRL.year_c);
+	char buff[37] = "hh:mm:ss  dd:mm:yy +24*C 100%";
+	sprintf((char *)buff, "%.2d:%.2d:%.2d  %.2d.%.2d.%.2d %.2d*C %.2d%%", RTC_CTRL.hour_c, RTC_CTRL.minutes_c, RTC_CTRL.seconds_c, RTC_CTRL.day_c, RTC_CTRL.month_c, RTC_CTRL.year_c, HTU21D.HTU21_temp_cut, HTU21D.HTU21_humi_cut);
 	lv_label_set_text(ui_MainScreenParamLabel, buff);
 }
 
