@@ -52,6 +52,7 @@
 #include "ctrl_process.h"
 
 #include "ctrl_htu21d.h"
+#include "ctrl_initialize.h"
 //#include "../../lvgl/demos/lv_demos.h"
 /* USER CODE END Includes */
 
@@ -199,8 +200,10 @@ int main(void)
   //lv_demo_widgets();
  // lv_example_menu_5();
   //lv_example_tabview_1();
+  ctrl_initialize();
   ui_init();
   cui_init();
+
   printf("\n init!");
 
 

@@ -79,7 +79,7 @@ void rtc_set(void)
 			#endif
 		}
 
-		LL_RTC_DisableWriteProtection(RTC);	//locks access to rtc domain regs
+		LL_RTC_EnableWriteProtection(RTC);	//locks access to rtc domain regs
 		rtc_update();
 		RTC_CTRL.rtcSetFlag = RTC_FLAG_NO_SET;
 	}

@@ -123,8 +123,23 @@ void cui_chart_update(void)
 	lv_chart_refresh(ui_Chart1);
 }
 
+/*
+ * initializae labels in ui with proper values based on sliders positions
+ */
+static void cui_init_ui_values(void)
+{
+
+	//screen brightness level, change slider and label based on lvl set on system
+//	ui_ui_ScreenBrigtSlider
+	lv_slider_set_value(ui_ScreenBrigtSlider, LCD_PWM.fill, LV_ANIM_OFF);
+	lcd_pwm_set_fill(&LCD_PWM, LCD_PWM.fill);
+
+}
 
 
+/*
+ * assign events for handling ui elements hanges
+ */
 static void cui_events_assign(void)
 {
 	lv_obj_add_event_cb(ui_Out1Arc, 			cui_Out1_clicked, 				LV_EVENT_RELEASED, 			NULL);
@@ -146,6 +161,7 @@ void cui_init(void)
 {
 //	cui_add_labels_pumpSliders();
 	cui_events_assign();
+	cui_init_ui_values();
 	cui_chart_init();
 	cui_chart_update();
 }
