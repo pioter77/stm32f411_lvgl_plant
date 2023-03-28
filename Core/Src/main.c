@@ -141,19 +141,6 @@ int main(void)
   MX_RTC_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  //timer init for pwm output:
-
-
-//  LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH1);
-//  LL_TIM_CC_EnableChannel(TIM1, LL_TIM_CHANNEL_CH2);
-//
-//  LL_TIM_EnableIT_UPDATE(TIM1);
-//  LL_TIM_EnableCounter(TIM1);
-//  LL_TIM_EnableAutomaticOutput(TIM1);
-
-
-//  LL_TIM_EnableCounter(TIM4);
-  //LL_TIM_EnableAutomaticOutput(TIM1);
 //**********************************************************************************************************************
   ctrl_device_init();
   ctrl_measure_init();
@@ -163,20 +150,18 @@ int main(void)
   ctrl_plant_init(&PLANT2);
 
 //**********************************************************************************************************************
-
-  //end of pwm timer init
   ILI9341_Init();
   XPT2046_Init(&hspi2, EXTI0_IRQn);
   HAL_Delay(30);
 
-  	  lv_init();
-  	  lv_disp_draw_buf_init(&disp_buf, buf_1, buf_2, ILI_SCR_HORIZONTAL * BUFFOR_SCR_ROWS);
-  	  lv_disp_drv_init(&disp_drv);            /*Basic initialization*/
-  	  disp_drv.draw_buf = &disp_buf;          /*Set an initialized buffer*/
-  	  disp_drv.flush_cb = ILI9341_flush;        /*Set a flush callback to draw to the display*/
-  	  disp_drv.hor_res = ILI_SCR_HORIZONTAL;                 /*Set the horizontal resolution in pixels*/
-  	  disp_drv.ver_res = ILI_SCR_VERTICAL;                 /*Set the vertical resolution in pixels*/
-    lv_disp_drv_register(&disp_drv); /*Register the driver and save the created display objects*/
+	lv_init();
+	lv_disp_draw_buf_init(&disp_buf, buf_1, buf_2, ILI_SCR_HORIZONTAL * BUFFOR_SCR_ROWS);
+	lv_disp_drv_init(&disp_drv);            /*Basic initialization*/
+	disp_drv.draw_buf = &disp_buf;          /*Set an initialized buffer*/
+	disp_drv.flush_cb = ILI9341_flush;        /*Set a flush callback to draw to the display*/
+	disp_drv.hor_res = ILI_SCR_HORIZONTAL;                 /*Set the horizontal resolution in pixels*/
+	disp_drv.ver_res = ILI_SCR_VERTICAL;                 /*Set the vertical resolution in pixels*/
+	lv_disp_drv_register(&disp_drv); /*Register the driver and save the created display objects*/
 
 
     lv_indev_drv_t indev_drv;
@@ -184,7 +169,7 @@ int main(void)
     indev_drv.type =LV_INDEV_TYPE_POINTER;
     indev_drv.read_cb = lvXPT2064_Read;
     lv_indev_drv_register(&indev_drv);
-  HAL_Delay(10);
+    HAL_Delay(10);
 
   //lv_example_get_started_1();
   //lv_example_textarea_2();

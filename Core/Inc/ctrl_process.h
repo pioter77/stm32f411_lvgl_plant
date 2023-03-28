@@ -29,12 +29,12 @@ typedef enum {PLANT_STATE_OFF= 0, PLANT_STATE_STANDBY, PLANT_STATE_WATERING, PLA
 typedef struct PLANT_T{
 	plantIsOn_t isOn;
 	plantState_t plantState;
-	uint16_t moisture_level;				//current soil moisture level read rom sensor and converted to % values 0-100% range
-	uint16_t moisture_threshold;			//specified soil humidity level when watering will start in % 0-100% range
-	uint16_t time_window_start;
-	uint16_t time_window_end;
-	uint16_t pump_power;					//specified pump power when running
-	uint16_t pump_duration;					//specified pump running time
+	uint8_t moisture_level;					//current soil moisture level read rom sensor and converted to % values 0-100% range
+	uint8_t moisture_threshold;				//specified soil humidity level when watering will start in % 0-100% range
+	uint8_t time_window_start;
+	uint8_t time_window_end;
+	uint8_t pump_power;						//specified pump power when running
+	uint8_t pump_duration;					//specified pump running time
 	uint16_t pump_life;						//read from memory
 
 	uint8_t wateringIsDone;					//this flag when @1->we can enter checking cycle as watering has just finished, when @0->we can enter watering couse we heave already waited for moisture lvl to rise or its first watering that day
