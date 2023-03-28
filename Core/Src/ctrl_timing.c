@@ -43,6 +43,8 @@ timing_t TIMING={
 		.tims_plant1Water= {0,0,0,0},
 		.tims_plant2Water= {0,0,0,0},
 
+		.tims_autosave= {0,0,0,0},
+
 };
 
 void co_timing_init(timing_t *ctrl_t)
@@ -89,6 +91,8 @@ void co_timing_ISR(timing_t *ctrl_t)
 
 		//htu21d timing:
 		timingCount(&ctrl_t->tims_htu21d);
+		//autosave fucntion timing:
+		timingCount(&ctrl_t->tims_autosave);
 
 
 	}

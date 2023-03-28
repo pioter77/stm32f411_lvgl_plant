@@ -13,11 +13,17 @@
 #include "ctrl_process.h"
 #include "ctrl_timing.h"
 #include "ctrl_htu21d.h"
+#include "ctrl_autosave.h"
 
 LCD_PWM_t LCD_PWM={
-		.tim= TIM2,
-		.channel= LL_TIM_CHANNEL_CH1,
-		.fill=0		// current fill value
+		.tim= 					TIM2,
+		.channel= 				LL_TIM_CHANNEL_CH1,
+		.fill=					0,											// current fill value
+		.isAuto= 				0,
+		.timeCnt=				0,
+		.timeVal=				0,
+		.isTimeOutOn=			0,
+		.adcReadFilt=			0,
 };
 
 
@@ -43,6 +49,7 @@ void ctrl_device(void)
 
 	  }
 	  ctrl_htu21d(&HTU21D);
+	  ctrl_autosave(&AUTOSAVE_CTRL);
 }
 
 
@@ -51,16 +58,16 @@ void ctrl_device_ui_lcdbrightness(void)
 {
 	if(LCD_PWM.fill != (uint16_t)(lv_slider_get_value(ui_ScreenBrigtSlider)))
 	{
-		lcd_pwm_set_fill(&LCD_PWM, (uint16_t)(lv_slider_get_value(ui_ScreenBrigtSlider)));
+		lcd_pwm_set_fill(&LCD_PWM, (uint8_t)(lv_slider_get_value(ui_ScreenBrigtSlider)));
 	}
 }
 
 void ctrl_device_ui_lcdtime(void)
 {
-//	if(LCD_PWM.fill != (uint16_t)(lv_slider_get_value(ui_ScreenBrigtSlider)))
-//	{
-//		lcd_pwm_set_fill(&LCD_PWM, (uint16_t)(lv_slider_get_value(ui_ScreenBrigtSlider)));
-//	}
+	if(LCD_PWM.timeVal != (uint16_t)(lv_slider_get_value(ui_ScreenTimeSlider)))
+	{
+		lcd_pwm_set_timeout(&LCD_PWM, (uint8_t)(lv_slider_get_value(ui_ScreenTimeSlider)));
+	}
 }
 
 void ctrl_device_dateTimeTempHumiUpdate(void)
@@ -108,5 +115,29 @@ void lcd_pwm_set_fill(LCD_PWM_t *lcd_pwm, uint8_t fill)
 		  LL_TIM_OC_SetCompareCH1(lcd_pwm->tim, LL_TIM_GetAutoReload(lcd_pwm->tim));	//full blast when value out of range
 		  lcd_pwm->fill= LL_TIM_GetAutoReload(lcd_pwm->tim);
 	  }
+}
+
+void lcd_pwm_enable_autoBrigntness(LCD_PWM_t *lcd_pwm, _Bool state)
+{
+	lcd_pwm->isAuto=	state;
+	/*
+	 * todo:implement the rest of the function when designing automatic brightness level
+	 */
+}
+
+void lcd_pwm_set_timeout(LCD_PWM_t *lcd_pwm, uint8_t timeOutVal)
+{
+	lcd_pwm->timeVal=	timeOutVal;
+	/*
+	 * todo:implement the rest of the function when designing timeout control
+	 */
+}
+
+void lcd_pwm_enable_timeout(LCD_PWM_t *lcd_pwm, _Bool state)
+{
+	lcd_pwm->isTimeOutOn=	state;
+	/*
+	 * todo:implement rest of the function when designing timeout control
+	 */
 }
 

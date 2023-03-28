@@ -133,6 +133,10 @@ static void cui_init_ui_values(void)
 //	ui_ui_ScreenBrigtSlider
 	lv_slider_set_value(ui_ScreenBrigtSlider, LCD_PWM.fill, LV_ANIM_OFF);
 	lcd_pwm_set_fill(&LCD_PWM, LCD_PWM.fill);
+	//todo: toggle needs to be set based on flag
+	lv_slider_set_value(ui_ScreenTimeSlider, LCD_PWM.timeVal, LV_ANIM_OFF);
+	lcd_pwm_set_timeout(&LCD_PWM, LCD_PWM.timeVal);
+	//todo: toggle needs to be set based on flag
 
 }
 
