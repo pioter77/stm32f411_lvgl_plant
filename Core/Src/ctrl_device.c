@@ -45,6 +45,7 @@ void ctrl_device(void)
 		 // LL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
 		ctrl_device_dateTimeTempHumiUpdate();
 		ctrl_device_humiUpdate();
+		ctrl_device_LabelStateUpdate();
 		timingRestart(&TIMING.tims_1000ms1);
 
 	  }
@@ -87,6 +88,18 @@ void ctrl_device_humiUpdate(void)
 	sprintf((char *)buff2, "%.2d%% / %.2d%%", PLANT2.moisture_level, PLANT2.moisture_threshold);
 	lv_label_set_text(ui_Out1Label, buff1);
 	lv_label_set_text(ui_Out2Label, buff2);
+}
+
+void ctrl_device_LabelStateUpdate(void)
+{
+//	ctrl_measure();
+	//todo: update not only watering count but also status
+	char buff1[16] = "watering 1/4";
+	char buff2[16] = "watering 1/4";
+	sprintf((char *)buff1, " %.1d/ %.1d", PLANT1.watering_cycle_cnt, PLANT1.watering_cycle_max);
+	sprintf((char *)buff2, " %.1d/ %.1d", PLANT2.watering_cycle_cnt, PLANT2.watering_cycle_max);
+	lv_label_set_text(ui_Out1LabelState, buff1);
+	lv_label_set_text(ui_Out2LabelState, buff2);
 }
 
 

@@ -209,9 +209,6 @@ int main(void)
 		  lv_task_handler();
 		  lv_timer_handler();
 
-
-
-
 		  ctrl_plant_ctrl(&PLANT1);
 		  ctrl_plant_ctrl(&PLANT2);
 		  //encoder_Pos= TIM4->CNT;
@@ -219,9 +216,6 @@ int main(void)
 
 	  }
 	  XPT2046_Task();
-
-
-
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -18,6 +18,7 @@ void ctrl_device(void);
 void ctrl_device_ui_lcdbrightness(void);
 void ctrl_device_ui_lcdtime(void);
 void ctrl_device_humiUpdate(void);
+void ctrl_device_LabelStateUpdate(void);
 void ctrl_device_dateTimeTempHumiUpdate(void);
 
 typedef struct LCD_PWM_T{

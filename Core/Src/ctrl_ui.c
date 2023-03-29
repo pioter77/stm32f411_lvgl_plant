@@ -130,14 +130,21 @@ static void cui_init_ui_values(void)
 {
 
 	//screen brightness level, change slider and label based on lvl set on system
-//	ui_ui_ScreenBrigtSlider
 	lv_slider_set_value(ui_ScreenBrigtSlider, LCD_PWM.fill, LV_ANIM_OFF);
 	lcd_pwm_set_fill(&LCD_PWM, LCD_PWM.fill);
-	//todo: toggle needs to be set based on flag
+
 	lv_slider_set_value(ui_ScreenTimeSlider, LCD_PWM.timeVal, LV_ANIM_OFF);
 	lcd_pwm_set_timeout(&LCD_PWM, LCD_PWM.timeVal);
-	//todo: toggle needs to be set based on flag
 
+	if(PLANT1.isOn) lv_obj_add_state(ui_Out1Switch, LV_STATE_CHECKED);
+	else lv_obj_clear_state(ui_Out1Switch, LV_STATE_CHECKED);
+	if(PLANT2.isOn) lv_obj_add_state(ui_Out2Switch, LV_STATE_CHECKED);
+	else lv_obj_clear_state(ui_Out2Switch, LV_STATE_CHECKED);
+
+	if(LCD_PWM.isAuto) lv_obj_add_state(ui_ScreenBrigtCheckbox, LV_STATE_CHECKED);
+	else lv_obj_clear_state(ui_ScreenBrigtCheckbox, LV_STATE_CHECKED);
+	if(LCD_PWM.isTimeOutOn) lv_obj_add_state(ui_ScreenTimeCheckbox, LV_STATE_CHECKED);
+	else lv_obj_clear_state(ui_ScreenTimeCheckbox, LV_STATE_CHECKED);
 }
 
 
@@ -158,6 +165,8 @@ static void cui_events_assign(void)
 	lv_obj_add_event_cb(ui_ScreenBrigtSlider, 	cui_ScreenBrightness_changed, 	LV_EVENT_VALUE_CHANGED, 	NULL);
 	lv_obj_add_event_cb(ui_TimeDateSaveButton, 	cui_SaveClockDate_clicked, 		LV_EVENT_RELEASED, 			NULL);
 	lv_obj_add_event_cb(ui_SettingsButton, 		cui_SettingsButton_clicked, 	LV_EVENT_RELEASED, 			NULL);
+	lv_obj_add_event_cb(ui_ScreenBrigtCheckbox, cui_ScreenBrigtCheckbox_toggled,LV_EVENT_RELEASED, 			NULL);
+	lv_obj_add_event_cb(ui_ScreenTimeCheckbox, 	cui_ScreenTimeCheckbox_toggled, LV_EVENT_RELEASED, 			NULL);
 
 }
 
@@ -248,6 +257,26 @@ void cui_Out2Switch_toggled(lv_event_t * event)
 		plant_switch_on(&PLANT2);
 	}else{
 		plant_switch_off(&PLANT2);
+	}
+}
+
+void cui_ScreenTimeCheckbox_toggled(lv_event_t * event)
+{
+	if( lv_obj_has_state(ui_ScreenTimeCheckbox, LV_STATE_CHECKED))
+	{
+		lcd_pwm_enable_timeout(&LCD_PWM, 1);
+	}else{
+		lcd_pwm_enable_timeout(&LCD_PWM, 0);
+	}
+}
+
+void cui_ScreenBrigtCheckbox_toggled(lv_event_t * event)
+{
+	if( lv_obj_has_state(ui_ScreenBrigtCheckbox, LV_STATE_CHECKED))
+	{
+		lcd_pwm_enable_autoBrigntness(&LCD_PWM, 1);
+	}else{
+		lcd_pwm_enable_autoBrigntness(&LCD_PWM, 0);
 	}
 }
 

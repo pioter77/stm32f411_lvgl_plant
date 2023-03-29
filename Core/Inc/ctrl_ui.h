@@ -46,5 +46,7 @@ void cui_ScreenTime_changed(lv_event_t * event);
 void cui_ScreenBrightness_changed(lv_event_t * event);
 void cui_SaveClockDate_clicked(lv_event_t * event);
 void cui_SettingsButton_clicked(lv_event_t * event);
+void cui_ScreenBrigtCheckbox_toggled(lv_event_t * event);
+void cui_ScreenTimeCheckbox_toggled(lv_event_t * event);
 
 #endif /* INC_CTRL_UI_H_ */

@@ -312,8 +312,10 @@ void ctrl_autosave(ctrl_autosave_t *autosave)
 		if(timingIsUp(autosave->tims_ptr))
 		{
 			//check if monitored values changed from previous entry here if so then save them to RTC backup registers
-			ctrl_autosave_track_variable8b(LL_RTC_BKP_DR1, &autosave->autoSaveDev, &autosave->autoSaveDev.screenBrigntnLvl, (uint8_t *)&LCD_PWM.fill);
-			ctrl_autosave_track_variable8b(LL_RTC_BKP_DR1, &autosave->autoSaveDev, &autosave->autoSaveDev.screenTimeVal, (uint8_t *)&LCD_PWM.timeVal);
+			ctrl_autosave_track_variable8b(LL_RTC_BKP_DR1, &autosave->autoSaveDev, &autosave->autoSaveDev.screenBrigntnLvl, 	(uint8_t *)&LCD_PWM.fill);
+			ctrl_autosave_track_variable8b(LL_RTC_BKP_DR1, &autosave->autoSaveDev, &autosave->autoSaveDev.screenTimeVal, 		(uint8_t *)&LCD_PWM.timeVal);
+			ctrl_autosave_track_variable8b(LL_RTC_BKP_DR1, &autosave->autoSaveDev, &autosave->autoSaveDev.screenBrigtnIsAuto, 	(uint8_t *)&LCD_PWM.isAuto);
+			ctrl_autosave_track_variable8b(LL_RTC_BKP_DR1, &autosave->autoSaveDev, &autosave->autoSaveDev.screenTimeIsOn, 		(uint8_t *)&LCD_PWM.isTimeOutOn);
 
 			//plant1:
 			ctrl_autosave_track_variable8b(LL_RTC_BKP_DR2, &autosave->autoSavePlant1, &autosave->autoSavePlant1.plantIsOn, 				&PLANT1.isOn);
