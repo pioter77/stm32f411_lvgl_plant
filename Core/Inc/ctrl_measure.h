@@ -14,6 +14,7 @@
 #include "string.h"
 #include "stdlib.h"
 
+#define PUMP_SENSOR_SCALE_READOUT  1
 
 #define ADC_NO_CONV 5
 #define ADC_NO_CONV_END (ADC_NO_CONV-1)

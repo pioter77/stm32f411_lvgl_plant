@@ -86,16 +86,40 @@ void ctrl_measure_init(void)
 
 void ctrl_measure(void)
 {
-//	PLANT1.moisture_level_raw= ADC_MEAS.adc_buff[0];
-//	PLANT2.moisture_level_raw= ADC_MEAS.adc_buff[1];
-	PLANT1.moisture_level_raw= 4095-adc_median_filter(ADC_MEAS.adc_buff[2], (uint16_t *)adc_median_buff1);
-	PLANT2.moisture_level_raw= 4095-adc_median_filter(ADC_MEAS.adc_buff[4], (uint16_t *)adc_median_buff2);
+
 	uint16_t sensor_in3= 			adc_median_filter(ADC_MEAS.adc_buff[0], (uint16_t *)adc_median_buff3);
 	uint16_t sensor_light= 			adc_median_filter(ADC_MEAS.adc_buff[3], (uint16_t *)adc_median_buff4);
 	uint16_t sensor_in4= 			adc_median_filter(ADC_MEAS.adc_buff[1], (uint16_t *)adc_median_buff5);
 
+	//sensor values need to be scaled @air measured values ar ~1100 and when fully submerged in water ~3300
+#define PUMP_SENSOR_WET_VAL 1100.0f
+#define PUMP_SENSOR_AIR_VAL 3300.0f
+	//linear function: y=ax+b for PUMP_SENSOR_AIR_VAL 3300.0f PUMP_SENSOR_WET_VAL 1100.0f makes y=-(1/22)x+150 that outputs 0-100%humidity vals
+
+
+#ifdef PUMP_SENSOR_SCALE_READOUT		//sensor for 5V when powered by 3V3 outputs only partial fill instead of FS when submerged in water so we need to scale up the readout to reach 100%
+
+	if(ADC_MEAS.adc_buff[2] > (uint16_t)PUMP_SENSOR_AIR_VAL) ADC_MEAS.adc_buff[2] = (uint16_t)PUMP_SENSOR_AIR_VAL;
+	if(ADC_MEAS.adc_buff[4] > (uint16_t)PUMP_SENSOR_AIR_VAL) ADC_MEAS.adc_buff[4] = (uint16_t)PUMP_SENSOR_AIR_VAL;
+
+	if(ADC_MEAS.adc_buff[2] < (uint16_t)PUMP_SENSOR_WET_VAL) ADC_MEAS.adc_buff[2] = (uint16_t)PUMP_SENSOR_WET_VAL;
+	if(ADC_MEAS.adc_buff[4] < (uint16_t)PUMP_SENSOR_WET_VAL) ADC_MEAS.adc_buff[4] = (uint16_t)PUMP_SENSOR_WET_VAL;
+
+	PLANT1.moisture_level_raw= adc_median_filter(ADC_MEAS.adc_buff[2], (uint16_t *)adc_median_buff1);
+	PLANT2.moisture_level_raw= adc_median_filter(ADC_MEAS.adc_buff[4], (uint16_t *)adc_median_buff2);
+
+	PLANT1.moisture_level= (uint16_t)(((float)(PLANT1.moisture_level_raw)/-22.0)+150.0);
+	PLANT2.moisture_level= (uint16_t)(((float)(PLANT2.moisture_level_raw)/-22.0)+150.0);
+
+	if(PLANT1.moisture_level > 100) PLANT1.moisture_level = 100;
+	if(PLANT2.moisture_level > 100) PLANT2.moisture_level = 100;
+#else
+	PLANT1.moisture_level_raw= 4095.0 - adc_median_filter(ADC_MEAS.adc_buff[2], (uint16_t *)adc_median_buff1);
+	PLANT2.moisture_level_raw= 4095.0 - adc_median_filter(ADC_MEAS.adc_buff[4], (uint16_t *)adc_median_buff2);
+
 	PLANT1.moisture_level= (uint16_t)((PLANT1.moisture_level_raw/4095.0)*100.0);
 	PLANT2.moisture_level= (uint16_t)((PLANT2.moisture_level_raw/4095.0)*100.0);
+#endif
 //	ADC_MEAS.adc_buff[2];
 //	ADC_MEAS.adc_buff[3];
 }
@@ -109,8 +133,13 @@ uint16_t adc_median_filter(uint16_t input_val, uint16_t *buff)
 	volatile uint16_t ret_val= (buff_med[ADC_FILTER_LEN/2-1]+buff_med[ADC_FILTER_LEN/2])/2;
 
 	memcpy((uint16_t *)buff_med, (uint16_t *)(buff)+1, ADC_FILTER_LEN*2-2);
-	for(uint16_t i=0; i<(ADC_FILTER_LEN-1); i++) buff[i]=buff_med[i+1];
-	buff[ADC_FILTER_LEN-1]= input_val;
+//	for(uint8_t i=0; i<(ADC_FILTER_LEN-1); i++) {
+//		*(buff+i)=buff_med[i+1];
+//	}
+//	buff[ADC_FILTER_LEN-1]= input_val;
+	buff_med[ADC_FILTER_LEN-1]= input_val;
+	memcpy((uint16_t *)buff, (uint16_t *)buff_med, ADC_FILTER_LEN*2);
+
 	return ret_val;
 }
 
